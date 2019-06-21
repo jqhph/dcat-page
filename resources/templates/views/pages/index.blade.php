@@ -18,15 +18,28 @@
 
     </nav>
 
+    <style>
+        .container .newline {
+            height:150px
+        }
+        @media (max-width:780px) {
+            .container .newline {
+                height:0
+            }
+        }
+    </style>
+
     <section class="hero">
         <div class="container" style="text-align:center">
+
+            <div class="newline"></div>
 
             <div>
                 <h1>Dcat Page  为PHPer打造的静态站点构建工具。</h1>
                 <p>简单、高效、美观</p>
             </div>
 
-            <div style="height:500px"></div>
+            <div style="height:400px"></div>
 
             <div class="callout rule">
                 <span class="text">Dcat Page可以做什么？</span>
@@ -43,8 +56,6 @@
 
             </div>
 
-
-            <div style="height: 100px"></div>
 
 
         </div>
