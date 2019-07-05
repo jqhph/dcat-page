@@ -52,7 +52,7 @@
                 <div style="height:10px"></div>
 
                 <h3 style="font-weight:300">文档</h3>
-                <p>可以把Markdown文本转化为一个简洁美观的、体验良好的web在线文档。</p>
+                <p>可以使用Dcat Page生成一个漂亮的、体验良好的Markdown文档。</p>
 
             </div>
 
