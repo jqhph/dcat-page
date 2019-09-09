@@ -104,10 +104,10 @@ class Documentation
         if (DcatPage::isCompiling()) {
             $path = '';
 
-            $content = preg_replace_callback('/href=\"([\s]*[\w-]+.md[#\w-\x{4e00}-\x{9fa5}]*[\s]*)\"/u', function (&$text) use ($version) {
+            $content = preg_replace_callback('/href=\"([\s]*[\w-]+.md[^\"\']*)\"/u', function (&$text) use ($version) {
                 $text = $text[1] ?? '';
 
-                return 'href="'.static::generateFormalUrl($version, $text).'"';
+                return 'href="'.static::generateDocUrl($version, $text).'"';
             }, $content);
 
             $content = str_replace('{{public}}/', '{{public}}', $content);
@@ -124,7 +124,7 @@ class Documentation
      * @param $doc
      * @return mixed
      */
-    public static function generateFormalUrl($version, $doc)
+    public static function generateDocUrl($version, $doc)
     {
         if (!Str::contains($doc, '.md')) {
             $doc .= '.md';

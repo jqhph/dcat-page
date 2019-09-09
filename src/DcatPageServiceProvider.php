@@ -4,7 +4,6 @@ namespace Dcat\Page;
 
 use Dcat\Admin\Admin;
 use Dcat\Page\Admin\DcatPageExtension;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 use Dcat\Page\Http\Controllers;
 use Illuminate\Support\Facades\Route;
@@ -71,10 +70,6 @@ class DcatPageServiceProvider extends ServiceProvider
 
         if (!defined('DCAT_PAGE_VERSION')) {
             include __DIR__.'/helpers.php';
-        }
-
-        if (!is_dir($base = resource_path(DcatPage::NAME))) {
-            File::makeDirectory($base);
         }
     }
 

@@ -20,7 +20,7 @@
 
     <style>
         .container .newline {
-            height:150px
+            height:200px
         }
         @media (max-width:780px) {
             .container .newline {
@@ -35,31 +35,13 @@
             <div class="newline"></div>
 
             <div>
-                <h1>Dcat Page  为PHPer打造的静态站点构建工具。</h1>
-                <p>简单、高效、美观</p>
+                <h1>Dcat Page  为PHPer打造的静态站点构建工具</h1>
+                <p>简单、美观、轻量</p>
             </div>
 
-            <div style="height:400px"></div>
-
-            <div class="callout rule">
-                <span class="text">Dcat Page可以做什么？</span>
-            </div>
-
-            <div style="text-align:left;">
-                <h3 style="font-weight:300">个人站点</h3>
-                <p>可用使用Dcat Page构建个人静态站点，如在线简历、个人作品展示站点等等。</p>
-
-                <div style="height:10px"></div>
-
-                <h3 style="font-weight:300">文档</h3>
-                <p>可以使用Dcat Page生成一个漂亮的、体验良好的Markdown文档。</p>
-
-            </div>
-
-
+            <div style="height:500px"></div>
 
         </div>
     </section>
-
 
 @endsection

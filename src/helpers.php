@@ -1,10 +1,10 @@
 <?php
 
-namespace DcatPage {
+namespace DcatPage
+{
 
     use Dcat\Page\DcatPage;
     use Dcat\Page\Documentation;
-    use Dcat\Admin\Support\Helper;
     use Illuminate\Support\Str;
 
     \define('DCAT_PAGE_VERSION', DcatPage::NAME);
@@ -129,7 +129,7 @@ namespace DcatPage {
                 $url .= '.html';
             }
 
-            return str_replace('/', '-', Helper::slug($url));
+            return str_replace('/', '-', slug($url));
         }
 
         $app = $app ?: DcatPage::getCurrentAppName();
@@ -151,7 +151,7 @@ namespace DcatPage {
         $version = $version ?: default_version();
 
         if (DcatPage::isCompiling()) {
-            return Documentation::generateFormalUrl($version, $doc);
+            return Documentation::generateDocUrl($version, $doc);
         }
 
         return url("docs/$version/$doc");
