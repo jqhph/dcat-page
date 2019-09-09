@@ -75,8 +75,8 @@ class AdminController extends Controller
 
             return <<<HTML
 <a href="$preview" target="_blank">预览</a> |
-<a class="compile-app" data-app="{$this->app}" href="javascript:void(0)" target="_blank">编译</a> | 
-<a class="index-app" data-app="{$this->app}" href="javascript:void(0)" target="_blank">索引</a> 
+<a class="compile-app" data-app="{$this->app}" href="javascript:void(0)" >编译</a> | 
+<a class="index-app" data-app="{$this->app}" href="javascript:void(0)" >索引</a> 
 HTML;
         });
 
