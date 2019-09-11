@@ -26,7 +26,7 @@ class AdminController extends Controller
     {
         return $content
             ->header('Dcat Page')
-            ->description('漂亮的静态站点构建工具')
+            ->description('一个简单易用的静态站点构建工具')
             ->body($this->grid());
     }
 
