@@ -312,6 +312,10 @@ class IndexCommand extends Command
      */
     protected function getAnchorName(Crawler $node)
     {
+        if (! $node->count()) {
+            return;
+        }
+
         $name = $node->previousAll()->first()->filter('a[name]');
 
         return $name->count() ? $name->attr('name') :
@@ -327,12 +331,11 @@ class IndexCommand extends Command
      */
     protected function getDocContent($path)
     {
-        $any = '[a-z0-9-_\.]*?';
-
         $content = $this->files->get($path);
 
         // 过滤导航标题
-        return preg_replace("/((?:-\s*){1}\[$any\]\($any\))/", '', trim($content));
+        // - [xxx](xxx)
+        return preg_replace("/((?:-\s*){1}\[[^\]]*?\]\([^\)]*?\))/", '', trim($content));
     }
 
     /**
