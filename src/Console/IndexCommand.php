@@ -82,7 +82,7 @@ class IndexCommand extends Command
         collect($this->files->directories($docBasePath))->map(function ($dir) use ($name) {
             $version = basename($dir);
 
-            $nodes = $this->generateArray($dir, $name, $version);
+            $nodes = $this->generateIndices($dir, $name, $version);
 
             $base = 'public/assets/indices/'.$version.'.js';
             $path = path($base);
@@ -102,7 +102,7 @@ class IndexCommand extends Command
      * @param $version
      * @return array
      */
-    protected function generateArray($path, $name, $version)
+    protected function generateIndices($path, $name, $version)
     {
         $values = [];
 
@@ -117,10 +117,10 @@ class IndexCommand extends Command
                 $crawler = new Crawler(markdown($content));
 
                 // 获取总标题下的内容
-                $node = $this->generateTop($crawler);
+                $node = $this->filterTopContent($crawler);
 
                 // 获取所有下级内容
-                $nodes = $this->generateWithTag($crawler, $this->tags);
+                $nodes = $this->filterWithTag($crawler, $this->tags);
                 $nodes = $this->unique($nodes, 'name');
 
                 $node && array_unshift($nodes, $node);
@@ -148,7 +148,7 @@ class IndexCommand extends Command
      * @param Crawler $crawler
      * @return array
      */
-    protected function generateTop(Crawler $crawler)
+    protected function filterTopContent(Crawler $crawler)
     {
         $end = false;
         $values = $crawler->children()->first()->children()->each(function (Crawler $node) use (&$end) {
@@ -187,7 +187,7 @@ class IndexCommand extends Command
      * @param array $titles
      * @return array
      */
-    protected function generateWithTag(Crawler $crawler, array $tags, array $prevTags = [], array $titles = [])
+    protected function filterWithTag(Crawler $crawler, array $tags, array $prevTags = [], array $titles = [])
     {
         if (!$tags) {
             return [];
@@ -202,7 +202,7 @@ class IndexCommand extends Command
             // 但是会有获取到重复的数据，所以需要在获取到所有数据后进行去重
             array_unshift($prevTags, $tag);
 
-            return $this->generateWithTag($crawler, $tags, $prevTags, $titles);
+            return $this->filterWithTag($crawler, $tags, $prevTags, $titles);
         }
 
         $values = $nodes->each(function (Crawler $node) use (&$prevTags, &$tags, &$titles) {
@@ -245,7 +245,7 @@ class IndexCommand extends Command
                 }
 
                 // 递归获取所有子标题下的内容
-                return $this->generateWithTag($node, $tags, $prevTags, $titles);
+                return $this->filterWithTag($node, $tags, $prevTags, $titles);
             });
 
             // 过滤空数组
@@ -288,7 +288,7 @@ class IndexCommand extends Command
                 return;
             }
 
-            return $this->formatHtml($node->text());
+            return $this->replaceText($node->text());
         });
 
         return join('  ', array_filter($contents));
@@ -329,9 +329,10 @@ class IndexCommand extends Command
      * @param $content
      * @return string
      */
-    protected function formatHtml($content)
+    protected function replaceText($content)
     {
-        $content = str_replace(['{tip}', '{note}', 'vedio', "\r"], '', $content);
+        // 过滤无意义字符
+        $content = str_replace(['{tip}', '{note}', '{vedio}', "\r"], '', $content);
         $content = preg_replace('/(<a[\s]+name=[\'\"]{1}.*?[\'\"]{1}[\s]*>.*?<\/a>)/', '', $content);
         $content = preg_replace('/([\s]+)/', ' ', $content);
         $content = str_replace(["\n"], ' ', $content);
