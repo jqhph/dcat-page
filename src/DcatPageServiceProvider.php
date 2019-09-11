@@ -4,6 +4,7 @@ namespace Dcat\Page;
 
 use Dcat\Admin\Admin;
 use Dcat\Page\Admin\DcatPageExtension;
+use Dcat\Page\Http\Middleware\Initialization;
 use Illuminate\Support\ServiceProvider;
 use Dcat\Page\Http\Controllers;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,9 @@ class DcatPageServiceProvider extends ServiceProvider
     /**
      * @var array
      */
-    protected $middlewares = [];
+    protected $middlewares = [
+        Initialization::class,
+    ];
 
     /**
      * {@inheritdoc}

@@ -20,8 +20,6 @@ class PageController extends Controller
      */
     public function page($app, $view = 'index')
     {
-        DcatPage::init($app);
-
         return Fun\page($view);
     }
 
@@ -35,8 +33,6 @@ class PageController extends Controller
      */
     public function doc($app, $version = null, $doc = null)
     {
-        DcatPage::init($app);
-
         $page = $doc ?: Fun\config('doc.default', 'installation');
 
         if (!$version) {
@@ -104,8 +100,6 @@ class PageController extends Controller
      */
     public function resource($app, $path)
     {
-        DcatPage::init($app);
-
         return Assets::response(Fun\path(
             'public/'.trim($path, '/')
         ));
