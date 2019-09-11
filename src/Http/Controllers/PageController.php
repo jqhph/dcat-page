@@ -3,7 +3,7 @@
 namespace Dcat\Page\Http\Controllers;
 
 use Dcat\Page\Documentation;
-use Dcat\Page\Http\AssetsReader;
+use Dcat\Page\Http\Assets;
 use Illuminate\Routing\Controller;
 use Dcat\Page\DcatPage;
 use DcatPage as Fun;
@@ -114,7 +114,7 @@ class PageController extends Controller
 
         $path = Fun\path($path);
 
-        return AssetsReader::send($path);
+        return Assets::send($path);
     }
 
     /**
