@@ -192,7 +192,7 @@ class CompileCommand extends Command
 
         $path = $path ?: ($this->getDistPath().'/'.Documentation::generateDocUrl($version, $doc));
 
-        $this->putContent($path, $this->replaceDocumentAssetsUrl($path, $version, $content));
+        $this->putContent($path, $this->replaceDocumentAssetsLinks($path, $version, $content));
 
     }
 
@@ -202,11 +202,13 @@ class CompileCommand extends Command
      * @param string|null $content
      * @return string
      */
-    protected function replaceDocumentAssetsUrl($path, $version, ?string $content)
+    protected function replaceDocumentAssetsLinks($path, $version, ?string $content)
     {
         if (! Str::contains($path, $version)) {
             return $content;
         }
+
+        $content = $this->htmlspecialchars($content);
 
         $content = preg_replace_callback('/href[\s]*=[\s]*[\"\']([\s]*[^\"\']*)[\"\']/u', function (&$text) {
             $url = trim($text[1] ?? '');
@@ -214,10 +216,40 @@ class CompileCommand extends Command
             return 'href="'.$this->getDocumentAssetsUrl($url).'"';
         }, $content);
 
-        return preg_replace_callback('/src[\s]*=[\s]*[\"\']([\s]*[^\"\']*)[\"\']/u', function (&$text) {
-            $url = trim($text[1] ?? '');
+        return $this->htmlspecialcharsDecode(
+            preg_replace_callback('/src[\s]*=[\s]*[\"\']([\s]*[^\"\']*)[\"\']/u', function (&$text) {
+                $url = trim($text[1] ?? '');
 
-            return 'src="'.$this->getDocumentAssetsUrl($url).'"';
+                return 'src="'.$this->getDocumentAssetsUrl($url).'"';
+            }, $content)
+        );
+    }
+
+    /**
+     * @param $content
+     * @return string
+     */
+    protected function htmlspecialchars($content)
+    {
+        return preg_replace_callback('/<code([^>]*)>([^<]*)<\/code>/u', function (&$text) {
+            $attrs = $text[1] ?? '';
+            $text = e($text[2] ?? '');
+
+            return "<code {$attrs}>{$text}</code>";
+        }, $content);
+    }
+
+    /**
+     * @param $content
+     * @return string
+     */
+    protected function htmlspecialcharsDecode($content)
+    {
+        return preg_replace_callback('/<code([^>]*)>([^<]*)<\/code>/u', function (&$text) {
+            $attrs = $text[1] ?? '';
+            $text = htmlspecialchars_decode($text[2] ?? '');
+
+            return "<code {$attrs}>{$text}</code>";
         }, $content);
     }
 
