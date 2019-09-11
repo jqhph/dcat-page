@@ -127,19 +127,21 @@ class IndexCommand extends Command
 
                 $link = str_replace('.md', '', slug(basename($fileInfo->getRealPath())));
 
-                $title = $crawler->filterXPath('//h1')->text();
+                $title = $crawler->count() ? $crawler->filterXPath('//h1')->text() : null;
             } catch (\Exception $e) {
             }
 
-            $values[] = [
-                'title' => $title ?? null,
-                'link'  => $link ?? null,
-                'nodes' => $nodes ?? [],
-            ];
+            if (!empty($title) || !empty($nodes)) {
+                $values[] = [
+                    'title' => $title ?? null,
+                    'link' => $link ?? null,
+                    'nodes' => $nodes ?? [],
+                ];
+            }
 
         });
 
-        return $values;
+        return array_filter($values);
     }
 
     /**
@@ -151,17 +153,21 @@ class IndexCommand extends Command
     protected function filterTopContent(Crawler $crawler)
     {
         $end = false;
-        $values = $crawler->children()->first()->children()->each(function (Crawler $node) use (&$end) {
-            if ($node->nodeName() == 'h1' || !$node->count()) {
-                return;
-            }
-            if ($end || in_array($node->nodeName(), $this->tags)) {
-                $end = true;
-                return;
-            }
+        try {
+            $values = $crawler->children()->first()->children()->each(function (Crawler $node) use (&$end) {
+                if ($node->nodeName() == 'h1' || !$node->count()) {
+                    return;
+                }
+                if ($end || in_array($node->nodeName(), $this->tags)) {
+                    $end = true;
+                    return;
+                }
 
-            return $node->text();
-        });
+                return $node->text();
+            });
+        } catch (\Exception $e) {
+            $values = [];
+        }
 
         $text = join(' ', array_filter($values));
 
@@ -174,7 +180,7 @@ class IndexCommand extends Command
             'h3'      => '',
             'h4'      => '',
             'name'    => '',
-            'content' => $this->formatHtml($text),
+            'content' => $this->replaceText($text),
         ];
     }
 
@@ -234,7 +240,7 @@ class IndexCommand extends Command
             }
 
             $end = false;
-            $allNextNodes = $node->nextAll()->each(function (Crawler $node) use (&$end, &$tags, &$titles, &$prevTags) {
+            $allNextNodes = $node->count() ? $node->nextAll()->each(function (Crawler $node) use (&$end, &$tags, &$titles, &$prevTags) {
                 if (!$node->count()) {
                     return;
                 }
@@ -246,7 +252,7 @@ class IndexCommand extends Command
 
                 // 递归获取所有子标题下的内容
                 return $this->filterWithTag($node, $tags, $prevTags, $titles);
-            });
+            }) : [];
 
             // 过滤空数组
             $allNextNodes = array_values(array_filter($allNextNodes, function ($v) {
@@ -276,6 +282,10 @@ class IndexCommand extends Command
      */
     protected function getNextAllText(Crawler $node, $endTag)
     {
+        if (! $node->count()) {
+            return '';
+        }
+
         $end    = false;
         $endTag = (array)$endTag;
 
