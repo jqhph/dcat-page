@@ -106,15 +106,9 @@ class PageController extends Controller
     {
         DcatPage::init($app);
 
-        if (strpos($path, '/') !== 0) {
-            $path = 'public/'.$path;
-        } else {
-            $path = 'public'.$path;
-        }
-
-        $path = Fun\path($path);
-
-        return Assets::send($path);
+        return Assets::send(Fun\path(
+            'public/'.trim($path, '/')
+        ));
     }
 
     /**
