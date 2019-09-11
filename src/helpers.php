@@ -151,10 +151,26 @@ namespace DcatPage
         $version = $version ?: default_version();
 
         if (DcatPage::isCompiling()) {
-            return Documentation::generateDocUrl($version, $doc);
+            return generate_doc_path_when_compiling($version, $doc);
         }
 
         return url("docs/$version/$doc");
+    }
+
+    /**
+     * 生成编译环境的文档路径
+     *
+     * @param string $version
+     * @param string $doc
+     * @return mixed
+     */
+    function generate_doc_path_when_compiling($version, $doc)
+    {
+        if (!Str::contains($doc, '.md')) {
+            $doc .= '.md';
+        }
+
+        return slug("docs/{$version}/".str_replace('.md', '.html', $doc));
     }
 
     /**

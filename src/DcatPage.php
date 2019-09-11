@@ -31,18 +31,34 @@ class DcatPage
      * @param string $app 应用名称
      * @param bool $isCompiling
      */
-    public static function init($app, bool $isCompiling = false)
+    public static function init(?string $app, bool $isCompiling = false)
     {
-        static::$appName = $app;
-        $isCompiling && (static::$isCompiling = true);
+        static::setCurrentAppName($app);
+        static::setIsCompiling($isCompiling);
+        static::setAppConfig($app);
+    }
 
+    /**
+     * 设置应用配置
+     *
+     * @param string|null $app
+     */
+    protected static function setAppConfig(?string $app)
+    {
         $config = [];
         if (is_file($path = Fun\path('config.php'))) {
-            $config = (array)include $path;
+            $config = (array) include $path;
         }
 
         config([static::NAME.'.'.$app => $config]);
+    }
 
+    /**
+     * @param bool $isCompiling
+     */
+    public static function setIsCompiling(bool $isCompiling)
+    {
+        self::$isCompiling = $isCompiling;
     }
 
     /**
@@ -73,6 +89,16 @@ class DcatPage
     public static function callCompiling(Console\CompileCommand $command)
     {
         Event::dispatch('dcat-page:compiling', $command);
+    }
+
+    /**
+     * 设置当前应用名称
+     *
+     * @param string|null $app
+     */
+    public static function setCurrentAppName(?string $app)
+    {
+        static::$appName = $app;
     }
 
     /**

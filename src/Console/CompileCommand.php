@@ -3,16 +3,16 @@
 namespace Dcat\Page\Console;
 
 use Dcat\Page\DcatPage;
-use Dcat\Page\Documentation;
 use Dcat\Page\Http\Controllers\PageController;
-use function DcatPage\default_version;
-use function DcatPage\page;
-use function DcatPage\path;
-use function DcatPage\slug;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
+use function DcatPage\default_version;
+use function DcatPage\page;
+use function DcatPage\path;
+use function DcatPage\slug;
+use function DcatPage\generate_doc_path_when_compiling;
 
 class CompileCommand extends Command
 {
@@ -190,7 +190,7 @@ class CompileCommand extends Command
 
         $content = (new PageController())->doc($name, $version, $doc)->render();
 
-        $path = $path ?: ($this->getDistPath().'/'.Documentation::generateDocUrl($version, $doc));
+        $path = $path ?: ($this->getDistPath().'/'.generate_doc_path_when_compiling($version, $doc));
 
         $this->putContent($path, $this->replaceDocumentAssetsLinks($path, $version, $content));
 

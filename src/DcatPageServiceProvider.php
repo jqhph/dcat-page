@@ -6,7 +6,6 @@ use Dcat\Admin\Admin;
 use Dcat\Page\Admin\DcatPageExtension;
 use Dcat\Page\Http\Middleware\Initialization;
 use Illuminate\Support\ServiceProvider;
-use Dcat\Page\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
 class DcatPageServiceProvider extends ServiceProvider
@@ -52,13 +51,14 @@ class DcatPageServiceProvider extends ServiceProvider
      */
     public function registerRoutes()
     {
-        \Route::group([
+        $this->app->make('router')->group([
             'prefix'     => DcatPage::NAME,
             'middleware' => $this->middlewares,
+            'namespace'  => 'Dcat\Page\Http\Controllers',
         ], function () {
-            Route::get('{app}/resource/{path}', Controllers\PageController::class.'@resource')->where('path', '.*');
-            Route::get('{app}/docs/{version?}/{doc?}', Controllers\PageController::class.'@doc');
-            Route::get('{app}/{view?}', Controllers\PageController::class.'@page')->where('view', '.*');
+            Route::get('{app}/resource/{path}', 'PageController@resource')->where('path', '.*');
+            Route::get('{app}/docs/{version?}/{doc?}', 'PageController@doc');
+            Route::get('{app}/{view?}', 'PageController@page')->where('view', '.*');
         });
     }
 

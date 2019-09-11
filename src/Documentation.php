@@ -2,13 +2,13 @@
 
 namespace Dcat\Page;
 
-use function DcatPage\slug;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\Str;
 use function DcatPage\asset;
 use function DcatPage\markdown;
 use function DcatPage\path;
+use function DcatPage\generate_doc_path_when_compiling;
 
 class Documentation
 {
@@ -42,6 +42,10 @@ class Documentation
         $this->basePath = $basePath;
     }
 
+    /**
+     * @param string $path
+     * @return string
+     */
     public function fullPath($path)
     {
         $path = $this->basePath.'/'.trim($path, '/');
@@ -107,7 +111,7 @@ class Documentation
             $content = preg_replace_callback('/href[\s]*=[\s]*[\"\']([\s]*[\w-]+.md[^\"\']*)[\"\']/u', function (&$text) use ($version) {
                 $text = $text[1] ?? '';
 
-                return 'href="'.static::generateDocUrl($version, $text).'"';
+                return 'href="'.generate_doc_path_when_compiling($version, $text).'"';
             }, $content);
 
             $content = str_replace('{{public}}/', '{{public}}', $content);
@@ -117,20 +121,6 @@ class Documentation
         $content = str_replace('&amp;#123;', '{', $content);
 
         return $content;
-    }
-
-    /**
-     * @param $version
-     * @param $doc
-     * @return mixed
-     */
-    public static function generateDocUrl($version, $doc)
-    {
-        if (!Str::contains($doc, '.md')) {
-            $doc .= '.md';
-        }
-
-        return slug("docs/{$version}/".str_replace('.md', '.html', $doc));
     }
 
     /**
