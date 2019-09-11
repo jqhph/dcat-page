@@ -3,6 +3,7 @@
 namespace Dcat\Page\Console;
 
 use Dcat\Page\DcatPage;
+use Dcat\Page\Documentation;
 use Dcat\Page\Http\Controllers\PageController;
 use function DcatPage\default_version;
 use function DcatPage\page;
@@ -10,6 +11,7 @@ use function DcatPage\path;
 use function DcatPage\slug;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
 
 class CompileCommand extends Command
@@ -186,12 +188,56 @@ class CompileCommand extends Command
 
         list($version, $doc) = explode('/', $doc);
 
-        $view = (new PageController())->doc($name, $version, $doc)->render();
+        $content = (new PageController())->doc($name, $version, $doc)->render();
 
-        $path = $path ?: ($this->getDistPath().slug("/docs-{$version}-$doc.html"));
+        $path = $path ?: ($this->getDistPath().'/'.Documentation::generateDocUrl($version, $doc));
 
-        $this->putContent($path, $view);
+        $this->putContent($path, $this->replaceDocumentAssetsUrl($path, $version, $content));
 
+    }
+
+    /**
+     * @param $path
+     * @param $version
+     * @param string|null $content
+     * @return string
+     */
+    protected function replaceDocumentAssetsUrl($path, $version, ?string $content)
+    {
+        if (! Str::contains($path, $version)) {
+            return $content;
+        }
+
+        $content = preg_replace_callback('/href[\s]*=[\s]*[\"\']([\s]*[^\"\']*)[\"\']/u', function (&$text) {
+            $url = trim($text[1] ?? '');
+
+            return 'href="'.$this->getDocumentAssetsUrl($url).'"';
+        }, $content);
+
+        return preg_replace_callback('/src[\s]*=[\s]*[\"\']([\s]*[^\"\']*)[\"\']/u', function (&$text) {
+            $url = trim($text[1] ?? '');
+
+            return 'src="'.$this->getDocumentAssetsUrl($url).'"';
+        }, $content);
+    }
+
+    /**
+     * @param $url
+     * @return string
+     */
+    protected function getDocumentAssetsUrl($url)
+    {
+        if (
+            $url
+            && ! in_array($url, ['#'])
+            && strpos($url, '#') !== 0
+            && ! Str::contains($url, 'javascript:')
+            && ! Str::contains($url, '//')
+        ) {
+            $url = '../../'.$url;
+        }
+
+        return $url;
     }
 
     /**

@@ -104,7 +104,7 @@ class Documentation
         if (DcatPage::isCompiling()) {
             $path = '';
 
-            $content = preg_replace_callback('/href=\"([\s]*[\w-]+.md[^\"\']*)\"/u', function (&$text) use ($version) {
+            $content = preg_replace_callback('/href[\s]*=[\s]*[\"\']([\s]*[\w-]+.md[^\"\']*)[\"\']/u', function (&$text) use ($version) {
                 $text = $text[1] ?? '';
 
                 return 'href="'.static::generateDocUrl($version, $text).'"';
@@ -130,7 +130,7 @@ class Documentation
             $doc .= '.md';
         }
 
-        return slug("docs-$version-".str_replace('.md', '.html', $doc));
+        return slug("docs/{$version}/".str_replace('.md', '.html', $doc));
     }
 
     /**

@@ -5,6 +5,10 @@
         getDocUrl: function (doc) {
             var temp = '{{ \DcatPage\doc_url('{doc}', isset($currentVersion) ? $currentVersion : \DcatPage\default_version()) }}';
 
+            if (location.pathname.indexOf(temp.replace('{doc}.html', '')) !== -1) {
+                return doc+'.html';
+            }
+
             return temp.replace('{doc}', doc);
         }
     };
@@ -20,5 +24,5 @@
 
         setTimeout(indices, 1);
     })();
-    
+
 </script>
