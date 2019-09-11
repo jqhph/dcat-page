@@ -81,11 +81,13 @@ class Assets
      *
      * @param $path
      * @return Response
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public static function send($path)
+    public static function response($path)
     {
         if ($fullPath = static::getFullPath($path)) {
-            return static::sendFileContent($fullPath);
+            return static::makeResponseWithPath($fullPath);
         }
 
         abort(404);
@@ -97,11 +99,10 @@ class Assets
      * @param string $path 文件完整路径
      * @return Response
      */
-    public static function sendFileContent(string $path)
+    public static function makeResponseWithPath(string $path)
     {
         $fileInfo = pathinfo($path);
         $extension = isset($fileInfo['extension']) ? $fileInfo['extension'] : '';
-        $filename = isset($fileInfo['filename']) ? $fileInfo['filename'] : '';
 
         $headers = [
             'Content-Type' => 'application/octet-stream',
@@ -112,7 +113,7 @@ class Assets
         if (!empty(static::$mimeTypeMap[$extension])) {
             $headers['Content-Type'] = static::$mimeTypeMap[$extension];
         } else {
-            $headers['Content-Disposition'] = "attachment; filename=\"$filename\"";
+            $headers['Content-Type'] = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
         }
 
         return response(file_get_contents($path), 200, $headers);

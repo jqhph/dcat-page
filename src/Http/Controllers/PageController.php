@@ -106,7 +106,7 @@ class PageController extends Controller
     {
         DcatPage::init($app);
 
-        return Assets::send(Fun\path(
+        return Assets::response(Fun\path(
             'public/'.trim($path, '/')
         ));
     }
