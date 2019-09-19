@@ -77,7 +77,7 @@ function init() {
                 $(item).attr("id", "target" + id);
                 $(item).addClass("target-name");
 
-                $tocContent.append('<li><a class="nav-item ' + className + ' anchor-link" onclick="return false;" href="#" link="#target' + id + '">' + text + '</a></li>');
+                $tocContent.append('<li><a class="nav-item ' + className + ' anchor-link" onclick="return false;" href="#target' + id + '" link="#target' + id + '">' + text + '</a></li>');
             }
 
             hTags.forEach(function (title, i) {
@@ -93,7 +93,7 @@ function init() {
                 $(item).attr("id", "target" + id);
                 $(item).addClass("target-name");
 
-                $tocContent.append('<li><a class="nav-item ' + className + ' anchor-link" onclick="return false;" href="#" link="#target' + id + '">' + text + '</a></li>');
+                $tocContent.append('<li><a class="nav-item ' + className + ' anchor-link" onclick="return false;" href="#target' + id + '" link="#target' + id + '">' + text + '</a></li>');
 
             });
 

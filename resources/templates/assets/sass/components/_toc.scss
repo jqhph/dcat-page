@@ -19,11 +19,13 @@
     overflow: auto;
   }
   li {
+    min-width: 220px;
     text-indent: 0.5rem;
     font-size: 13px;
     list-style: none;
     //border-left:1px solid #f0f2f1;
     padding:0 0.5rem 2px 1rem;
+    //padding: 0.2rem 0.8rem 1px 0rem;
   }
   li .nav-item{
     padding: 3px;
@@ -53,9 +55,13 @@
     color: $color__salmon;
     opacity: .5;
   }
-  li.active a{
-    color: $color__salmon!important;
-    font-weight: bold;
+
+  li.active:before {
+    font-family: FontAwesome;
+    color: $color__salmon;
+    margin-right: .28em;
+    content: "\f0a4";
+    font-size: 15px;
   }
 
   a:hover {
