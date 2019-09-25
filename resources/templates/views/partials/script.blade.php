@@ -10,7 +10,11 @@
             }
 
             return temp.replace('{doc}', doc);
-        }
+        },
+
+        config: {
+            comment: {!! json_encode(\DcatPage\config('comment') ?: []) !!}
+        },
     };
     (function () {
         function indices() {

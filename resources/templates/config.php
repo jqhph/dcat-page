@@ -24,4 +24,15 @@ return [
         // 忽略的文档
         'ignore' => [],
     ],
+    'comment' => [
+        'enable' => true,
+        'clientID' => 'xxx',
+        'clientSecret' => 'xxx',
+        'repo' => 'xxx',
+        'owner' => 'xxx',
+        'admin' => ['xxx'],
+        'language' => 'zh-CN', // 支持 [en, zh-CN, zh-TW]。
+        'perPage' => 15,
+        'pagerDirection' => 'first', // last first
+    ],
 ];

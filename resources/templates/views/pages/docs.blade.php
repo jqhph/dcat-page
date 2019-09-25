@@ -47,6 +47,8 @@
 
 	<article>
 		{!! $content !!}
+
+		<div id="comment-container" style="margin-top: 50px"></div>
 	</article>
 
 </div>

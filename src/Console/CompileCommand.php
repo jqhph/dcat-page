@@ -146,13 +146,39 @@ class CompileCommand extends Command
             $path = $dist.'/'.str_replace('/', '-', slug($view)).'.html';
 
             if ($view == 'docs') {
-                $doc = \DcatPage\config('doc.default', 'installation');
-
-                return $this->compileDocumentation($name, default_version().'/'.$doc, $path);
+                return $this->putDefaultDocumention($path);
             }
 
             $this->putContent($dist.'/'.str_replace('/', '-', slug($view)).'.html', page($view)->render());
         });
+    }
+
+    /**
+     * @param string $path
+     */
+    protected function putDefaultDocumention($path)
+    {
+        $doc = \DcatPage\config('doc.default', 'installation');
+
+        $version = default_version();
+
+        $file = $path ?: ($this->getDistPath().'/'.generate_doc_path_when_compiling($version, $doc));
+
+        $path = generate_doc_path_when_compiling($version, $doc);
+
+        $this->putContent(
+            $file,
+            <<<HTML
+<html>
+    <body>
+        <script>
+            location.href='{$path}';
+        </script>    
+    </body>
+</html>
+HTML
+        );
+        return;
     }
 
     /**

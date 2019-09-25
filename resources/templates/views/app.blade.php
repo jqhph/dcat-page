@@ -17,6 +17,10 @@
     {!! \DcatPage\html_css('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i') !!}
     {!! \DcatPage\html_css('assets/font-awesome/css/font-awesome.min.css') !!}
 
+    @if(DcatPage\config('comment.enable'))
+        {!! \DcatPage\html_css('assets/gitalk/gitalk.css') !!}
+    @endif
+
 </head>
 <body class="@yield('body-class', 'docs') language-default">
     {{--<div class="laracon-banner">--}}
@@ -69,6 +73,9 @@
 
     @include(\DcatPage\view_name('partials.script'))
 
+    @if(DcatPage\config('comment.enable'))
+        {!! \DcatPage\html_js('assets/gitalk/gitalk.min.js') !!}
+    @endif
     {!! \DcatPage\html_js('/assets/js/laravel.js') !!}
     {!! \DcatPage\html_js('/assets/js/viewport-units-buggyfill.js') !!}
     <script>window.viewportUnitsBuggyfill.init();</script>
