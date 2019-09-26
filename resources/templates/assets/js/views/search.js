@@ -28,6 +28,11 @@ function init() {
         var $searchInput = $('#search-input');
         var $mainNav = $('.main-nav');
         var $article = $('article');
+        var notSwitch = $mainNav.is(':hidden');
+
+        $(window).resize(function () {
+            notSwitch = $mainNav.is(':hidden');
+        });
 
         // Closes algolia results on blur
         $searchInput.blur(function () {
@@ -36,6 +41,10 @@ function init() {
 
         // Hides main nav to widen algolia results
         $searchInput.on('input', function (event) {
+            if (notSwitch) {
+                return;
+            }
+
             if (event.currentTarget.value !== '') {
                 $mainNav.hide();
             } else {
@@ -60,46 +69,46 @@ function init() {
             },
             templates: {
                 //templates.suggestion.render.bind(templates.suggestion)
-                  suggestion: function (item) {
-                      var content = '',
-                          d = '<span style="color:#ccc;">></span>',
-                          size = 'style="font-size:15px"',
-                          titles = [item.h2, item.h3, item.h4],
-                          subTitles = [],
-                          i;
+                suggestion: function (item) {
+                    var content = '',
+                        d = '<span style="color:#ccc;">></span>',
+                        size = 'style="font-size:15px"',
+                        titles = [item.h2, item.h3, item.h4],
+                        subTitles = [],
+                        i;
 
-                      if (item.content) {
-                          content = `<div class="content">${item.content}</div>`;
-                      }
+                    if (item.content) {
+                        content = `<div class="content">${item.content}</div>`;
+                    }
 
-                      for (i in titles) {
-                          if (titles[i]) {
-                              subTitles.push(`<span ${size}>${titles[i]}</span>`);
-                          }
-                      }
+                    for (i in titles) {
+                        if (titles[i]) {
+                            subTitles.push(`<span ${size}>${titles[i]}</span>`);
+                        }
+                    }
 
 
-                      if (subTitles.length) {
-                          subTitles = subTitles.join(` ${d} `);
+                    if (subTitles.length) {
+                        subTitles = subTitles.join(` ${d} `);
 
-                          subTitles = `<div class="sub-section">
+                        subTitles = `<div class="sub-section">
         <div class="h2" style="font-size:17px">
             <span class="hash">#</span>  ${subTitles}
         </div>
     </div>`;
-                      }
+                    }
 
-                      return `<div class="autocomplete-wrapper">
+                    return `<div class="autocomplete-wrapper">
     <div style="font-size:16px;margin-bottom:5px">
         ${item.h1}
     </div>
     ${subTitles} ${content}
 </div>`;
-                  },
-                  empty: function (p) {
-                      var query = p.query;
-                      return `<div class="autocomplete-wrapper empty"><div class="h2">We didn't find any result for "${query}". Sorry!</div></div>`;
-                  }
+                },
+                empty: function (p) {
+                    var query = p.query;
+                    return `<div class="autocomplete-wrapper empty"><div class="h2">We didn't find any result for "${query}". Sorry!</div></div>`;
+                }
             },
 
         });
