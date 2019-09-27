@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>{{ isset($title) ? $title . ' - ' : null }}{{ \DcatPage\config('website.title') }}</title>
+    <title>{{ !empty($title) ? $title . ' - ' : null }}{{ \DcatPage\config('website.title') }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="{!! \DcatPage\config('website.description') !!}">
     <meta name="keywords" content="{{ \DcatPage\config('website.keywords') }}">

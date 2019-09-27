@@ -1,4 +1,4 @@
-@extends(\DcatPage\view_name('app'), ['title' => 'Welcome to Dcat Page'])
+@extends(\DcatPage\view_name('app'), ['title' => ''])
 
 @section('body-class', 'home')
 
