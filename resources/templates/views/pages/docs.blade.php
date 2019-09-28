@@ -4,8 +4,8 @@
 <nav id="slide-menu" class="slide-menu" role="navigation">
 
 	<div class="brand">
-		<a href="/">
-{{--			<img src="{!! \DcatPage\asset('/assets/img/laravel-logo-white.png') !!}" height="50">--}}
+		<a href="{{ \DcatPage\url('/') }}">
+			Dcat Page
 		</a>
 	</div>
 

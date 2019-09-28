@@ -8,7 +8,7 @@
 
         <div class="brand">
             <a href="{{ \DcatPage\url('/') }}">
-                {{--                <img src="{!! \DcatPage\asset('/assets/img/laravel-logo-white.png') !!}" height="50" >--}}
+                Dcat Page
             </a>
         </div>
 

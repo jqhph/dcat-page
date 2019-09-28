@@ -13,7 +13,6 @@
 
     {!! \DcatPage\html_css('assets/css/laravel.css') !!}
     {!! \DcatPage\html_css('https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css') !!}
-{{--    <link rel="apple-touch-icon" href="/favicon.png">--}}
     {!! \DcatPage\html_css('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i') !!}
     {!! \DcatPage\html_css('assets/font-awesome/css/font-awesome.min.css') !!}
 
@@ -32,7 +31,6 @@
 
     <nav class="main">
         <a href="{{\DcatPage\url('/')}}" class="brand nav-block">
-{{--            {!! \DcatPage\svg('laravel-logo') !!}--}}
             <span>Dcat Page</span>
         </a>
 
