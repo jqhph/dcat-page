@@ -106,8 +106,8 @@ TREE;
         /* @var Filesystem $files */
         $files = app('files');
 
-        if (!is_dir($to)) {
-            $files->makeDirectory($to);
+        if (! is_dir($to)) {
+            $files->makeDirectory($to, 0755, true);
         }
 
         foreach ($files->directories($from) as $dir) {
