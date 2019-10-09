@@ -369,7 +369,7 @@ HTML
         }
 
         // 如果指定了路径
-        $path = str_replace(':app', $name, $path);
+        $path = $this->replaceDistPath($path, $name);
 
         if (! is_dir($path)) {
             $this->files->makeDirectory($path, 0755, true);
@@ -386,7 +386,7 @@ HTML
      */
     public function getDir($name)
     {
-        $dir = $this->option('dir') ?: date('Ymd-His');
+        $dir = $this->replaceDistPath($this->option('dir') ?: date('Ymd-His'), $name);
 
         $fullPath = rtrim($this->getDistBasePath($name, ''), '/');
 
@@ -406,6 +406,16 @@ HTML
         if (!$same) return $dir;
 
         return $dir . '-' . ($same);
+    }
+
+    /**
+     * @param  string  $path
+     * @param  string  $name
+     * @return string
+     */
+    protected function replaceDistPath($path, $name)
+    {
+        return str_replace(':app', $name, $path);
     }
 
     /**
