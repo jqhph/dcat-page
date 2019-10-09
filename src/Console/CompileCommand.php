@@ -23,7 +23,7 @@ class CompileCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'dcatpage:compile {name?} {--dir=}';
+    protected $signature = 'dcatpage:compile {name?} {--dir=} {--path=}';
 
     /**
      * The console command description.
@@ -364,7 +364,18 @@ HTML
      */
     public function getDistBasePath($name, $dirName)
     {
-        return $this->path($name.DIRECTORY_SEPARATOR.'_dist_'.DIRECTORY_SEPARATOR.$dirName);
+        if (! $path = $this->option('path')) {
+            return $this->path($name.DIRECTORY_SEPARATOR.'_dist_'.DIRECTORY_SEPARATOR.$dirName);
+        }
+
+        // 如果指定了路径
+        $path = str_replace(':app', $name, $path);
+
+        if (! is_dir($path)) {
+            $this->files->makeDirectory($path, 0755, true);
+        }
+
+        return $path.DIRECTORY_SEPARATOR.$dirName;
     }
 
     /**
@@ -379,7 +390,7 @@ HTML
 
         $fullPath = rtrim($this->getDistBasePath($name, ''), '/');
 
-        if (!is_dir($fullPath)) {
+        if (! is_dir($fullPath)) {
             return $dir;
         }
 
