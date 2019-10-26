@@ -26,7 +26,7 @@ composer require dcat/page
 
 ## 文档
 
-[在线文档](https://jqhph.gitee.io/dcatpage/)
+[在线文档](https://jqhph.github.io/dcat-page/)
 
 
 ## 功能
@@ -42,3 +42,6 @@ composer require dcat/page
 - [ ] 博客
 - [ ] 主题切换
 
+## License
+------------
+[The MIT License (MIT)](LICENSE).
