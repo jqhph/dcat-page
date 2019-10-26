@@ -1,6 +1,6 @@
 {
     "name": "dcat/page",
-    "description": "使用blade模板和markdown文本快速生成漂亮的轻量级静态站点，支持文档内容搜索和二次开发。",
+    "description": "为PHPer打造的静态站点构建工具。",
     "type": "library",
     "keywords": ["dcat-page", "dcat"],
     "homepage": "https://github.com/jqhph/dcat-page",

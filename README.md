@@ -1,6 +1,14 @@
 Dcat Page
 ======
 
+<p>
+    <a href="https://github.com/jqhph/dcat-page/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-7389D8.svg?style=flat" ></a>
+    <a href="https://github.com/jqhph/dcat-page/releases" ><img src="https://img.shields.io/github/release/jqhph/dcat-page.svg?color=4099DE" /></a> 
+    <a href="https://packagist.org/packages/dcat/page"><img src="https://img.shields.io/packagist/dt/dcat/page.svg?color=" /></a> 
+    <a><img src="https://img.shields.io/badge/php-7.1+-59a9f8.svg?style=flat" /></a> 
+</p>
+
+
 `Dcat Page`是一个为`PHPer`打造的简单易用的静态站点构建工具，可以把`markdown`文档编译成漂亮的静态`HTML`页面，采用[laraval.com](https://github.com/laravel/laravel.com)作为基础模板。
 
 
