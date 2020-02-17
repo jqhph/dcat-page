@@ -5,6 +5,7 @@ function init() {
     var options = {
             min_width: '1440px',
             max_layer: 3,
+            left: 85,
         },
         $container = $('body article'),
         counter = {};
@@ -49,10 +50,12 @@ function init() {
             $toc.show();
             $tocContent.show();
 
-            var top = $container.offset().top;
-            var left = $container.offset().left;
+            options.top = $container.offset().top + 10;
+            var left = $container.offset().left + $container.width() + options.left;
 
-            $toc.css({top: (top + 10) + 'px', left: (left + $container.width() + 55) + 'px', display: 'block'});
+            $toc.css({top: top + 'px', left: left+ 'px', display: 'block'});
+
+            $toc.attr('data-top', top);
 
             var height = ($(window).height() - 150) + 'px',
                 heightObj = {
@@ -175,7 +178,21 @@ function init() {
 
                 scrollable = false;
             }, 100);
+        });
 
+        $(window).scroll(function() {
+            var scroH = $(document).scrollTop(),
+                style = {
+                    top: '20px',
+                };
+
+            if (scroH <= 80) {
+                style = {
+                    top: options.top + 'px',
+                };
+            }
+
+            $toc.css(style);
         });
 
         function isScrollEnd(top) {
@@ -186,7 +203,6 @@ function init() {
     }
 
     build();
-
 }
 
 export {init}
