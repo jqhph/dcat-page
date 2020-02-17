@@ -1052,10 +1052,37 @@ function init() {
     }
 
     if ($('.sidebar ul').length) {
-        var current = $('.sidebar ul').find('li a[href="' + window.location.pathname + '"]');
+        var current = [];
+        $('.sidebar ul li a').each(function (_, a) {
+            var href = $(a).attr('href');
+
+            if (!href) {
+                return;
+            }
+
+            var results = [];
+            href = href.split('/');
+            for (var i in href) {
+                if (href[i] === '..') {
+                    continue;
+                }
+                results.push(href[i].replace('.md', ''));
+            }
+
+            href = results.join('/');
+
+            var path = window.location.pathname.replace('.md', '');
+            if (path.indexOf(href) !== -1) {
+                current = $(a).parent();
+            }
+        });
 
         if (current.length) {
-            current.parent().css('font-weight', 'bold');
+            current.addClass('active');
+
+            if (current[0].tagName.toUpperCase() === 'H2') {
+                current.css('font-weight', 'bold');
+            }
 
             // Only toggle the state if the user has collapsed the documentation
             if (docCollapsed) {

@@ -29,8 +29,6 @@
 		&:hover
 		{
 			color: $color__blue;
-			//color: #222;
-			// border-color: currentColor;
 		}
 
 		&:after {
@@ -52,8 +50,6 @@
 		}
 
 		&.is-active {
-			// color: $color__darker_salmon;
-			// border-bottom-style: solid;
 
 			&:after {
 				transform: rotate(90deg);
@@ -92,16 +88,21 @@
 				margin: 0.5rem 0 0;
 				padding: 0;
 				font-size: 14px;
-				padding-left: 0.75rem;
+
+				> li {
+					padding-left: 0.75rem;
+				}
+
+				> li.active {
+					background: rgba($color__salmon, 0.1);
+				}
 			}
 		}
 	}
 
 	a {
 		line-height: 30px;
-		//color:$color__light_gray;
 		&:hover {
-			//color:$color__gray
 			color: $color__darker_salmon;
 		}
 	}
