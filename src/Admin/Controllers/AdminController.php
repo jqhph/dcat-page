@@ -40,7 +40,6 @@ class AdminController extends Controller
         $grid = new Grid(new App());
 
         $grid->disableCreateButton();
-        $grid->disableQuickCreateButton();
         $grid->disableBatchDelete();
         $grid->disableActions();
         $grid->disablePagination();
@@ -166,5 +165,4 @@ HTML;
 
         return Table::make([], $rows);
     }
-
 }
