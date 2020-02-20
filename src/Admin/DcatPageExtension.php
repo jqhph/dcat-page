@@ -11,7 +11,7 @@ class DcatPageExtension extends Extension
 {
     const NAME = DcatPage::NAME;
 
-    protected $composerJson = __DIR__.'/../../composer.json';
+    protected $composer = __DIR__.'/../../composer.json';
 
     /**
      * 初始化
