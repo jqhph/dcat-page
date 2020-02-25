@@ -8,6 +8,10 @@ function init() {
             left: 85,
         },
         $container = $('body article'),
+        docm = document,
+        win = window,
+        $docm = $(docm),
+        $win = $(win),
         counter = {};
 
     if ($container.find('.the-404').length) {
@@ -42,7 +46,7 @@ function init() {
             $tocContent = $('#toc-content');
 
         function setup_container() {
-            if (!window.matchMedia(`(min-width:${options.min_width})`).matches) {
+            if (!win.matchMedia(`(min-width:${options.min_width})`).matches) {
                 $toc.hide();
                 $tocContent.hide();
                 return;
@@ -57,7 +61,7 @@ function init() {
 
             $toc.attr('data-top', top);
 
-            var height = ($(window).height() - 150) + 'px',
+            var height = ($win.height() - 150) + 'px',
                 heightObj = {
                     height: height
                 };
@@ -103,7 +107,7 @@ function init() {
             setup_container();
         });
 
-        $(window).on('resize', setup_container);
+        $win.on('resize', setup_container);
 
         $toc.find('.anchor-link').click(function () {
             $('html,body').animate({scrollTop: $($(this).attr('link')).offset().top}, 500);
@@ -138,8 +142,8 @@ function init() {
         });
 
         // 滚动选中
-        $(window).scroll(function () {
-            let scrollTop = $(window).scrollTop(),
+        $win.scroll(function () {
+            let scrollTop = $win.scrollTop(),
                 timer;
             scrollable = true;
 
@@ -157,7 +161,7 @@ function init() {
             if (scrollTop == 0) {
                 $tocContent.animate({scrollTop: 0}, 100);
             }
-            if (scrollTop + $(window).height() == $(document).height()) {
+            if (scrollTop + $win.height() == $docm.height()) {
                 $tocContent.animate({scrollTop: $tocContent.height()}, 100);
             }
 
@@ -180,8 +184,9 @@ function init() {
             }, 100);
         });
 
-        $(window).scroll(function() {
-            var scroH = $(document).scrollTop(),
+        var tocHeight = getTocHeight($toc.find('li'));
+        $win.scroll(function() {
+            var scroH = $docm.scrollTop(),
                 style = {
                     top: '20px',
                 };
@@ -190,13 +195,27 @@ function init() {
                 style = {
                     top: options.top + 'px',
                 };
+            } else if (($docm.height() - (scroH + $win.height()) <= 300) && tocHeight > 500) {
+                style = {
+                    top: '-200px',
+                };
             }
 
             $toc.css(style);
         });
 
+        function getTocHeight($dom) {
+            var height = 0;
+
+            $dom.each(function (k, v) {
+                height += $(v).height();
+            });
+
+            return height;
+        }
+
         function isScrollEnd(top) {
-            return top == $(window).scrollTop();
+            return top + $win.height() === $docm.height();
         }
 
         $toc.find('li').eq(0).addClass('active');
