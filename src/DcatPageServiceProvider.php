@@ -5,8 +5,8 @@ namespace Dcat\Page;
 use Dcat\Admin\Admin;
 use Dcat\Page\Admin\DcatPageExtension;
 use Dcat\Page\Http\Middleware\Initialization;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
 
 class DcatPageServiceProvider extends ServiceProvider
 {
@@ -43,7 +43,6 @@ class DcatPageServiceProvider extends ServiceProvider
         $this->registerRoutes();
 
         $this->loadViewsFrom(resource_path(DcatPage::NAME), DcatPage::NAME);
-
     }
 
     /**
@@ -75,5 +74,4 @@ class DcatPageServiceProvider extends ServiceProvider
             include __DIR__.'/helpers.php';
         }
     }
-
 }

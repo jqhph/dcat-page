@@ -62,14 +62,13 @@ class IndexCommand extends Command
             $name = DcatPage::getAllAppNames();
         }
 
-        foreach ((array)$name as $app) {
+        foreach ((array) $name as $app) {
             $this->generate($app);
         }
-
     }
 
     /**
-     * 生成json格式文档
+     * 生成json格式文档.
      *
      * @param $name
      */
@@ -91,15 +90,15 @@ class IndexCommand extends Command
 
             $this->info("[{$name} --- {$base}] created successfully.");
         });
-
     }
 
     /**
-     * 生成索引节点
+     * 生成索引节点.
      *
      * @param $path
      * @param $name
      * @param $version
+     *
      * @return array
      */
     protected function generateIndices($path, $name, $version)
@@ -134,25 +133,26 @@ class IndexCommand extends Command
             if (!empty($title) || !empty($nodes)) {
                 $values[] = [
                     'title' => $title ?? null,
-                    'link' => $link ?? null,
+                    'link'  => $link ?? null,
                     'nodes' => $nodes ?? [],
                 ];
             }
-
         });
 
         return array_filter($values);
     }
 
     /**
-     * 获取总标题下的内容
+     * 获取总标题下的内容.
      *
      * @param Crawler $crawler
+     *
      * @return array
      */
     protected function filterTopContent(Crawler $crawler)
     {
         $end = false;
+
         try {
             $values = $crawler->children()->first()->children()->each(function (Crawler $node) use (&$end) {
                 if ($node->nodeName() == 'h1' || !$node->count()) {
@@ -160,6 +160,7 @@ class IndexCommand extends Command
                 }
                 if ($end || in_array($node->nodeName(), $this->tags)) {
                     $end = true;
+
                     return;
                 }
 
@@ -169,7 +170,7 @@ class IndexCommand extends Command
             $values = [];
         }
 
-        $text = join(' ', array_filter($values));
+        $text = implode(' ', array_filter($values));
 
         if (!$text) {
             return [];
@@ -185,12 +186,13 @@ class IndexCommand extends Command
     }
 
     /**
-     * 按标题分类生成索引数组
+     * 按标题分类生成索引数组.
      *
      * @param Crawler $crawler
-     * @param array $tags
-     * @param array $prevTags
-     * @param array $titles
+     * @param array   $tags
+     * @param array   $prevTags
+     * @param array   $titles
+     *
      * @return array
      */
     protected function filterWithTag(Crawler $crawler, array $tags, array $prevTags = [], array $titles = [])
@@ -227,10 +229,10 @@ class IndexCommand extends Command
             $topContent = null;
             if ($topText = $this->getNextAllText($node, $allTags)) {
                 $topContent = array_merge([
-                    'h2' => '',
-                    'h3' => '',
-                    'h4' => '',
-                    'name' => $name,
+                    'h2'      => '',
+                    'h3'      => '',
+                    'h4'      => '',
+                    'name'    => $name,
                     'content' => $topText,
                 ], $titles);
             }
@@ -247,6 +249,7 @@ class IndexCommand extends Command
 
                 if ($end || in_array($node->nodeName(), $prevTags)) {
                     $end = true;
+
                     return;
                 }
 
@@ -269,25 +272,25 @@ class IndexCommand extends Command
             return $allNextNodes;
         });
 
-        return Arr::flatten($values, 1 );
+        return Arr::flatten($values, 1);
     }
 
-
     /**
-     * 获取下面所有相邻节点的文本内容
+     * 获取下面所有相邻节点的文本内容.
      *
      * @param Crawler $node
      * @param $endTag
+     *
      * @return string
      */
     protected function getNextAllText(Crawler $node, $endTag)
     {
-        if (! $node->count()) {
+        if (!$node->count()) {
             return '';
         }
 
-        $end    = false;
-        $endTag = (array)$endTag;
+        $end = false;
+        $endTag = (array) $endTag;
 
         $contents = $node->nextAll()->each(function (Crawler $node) use (&$end, $endTag) {
             if (!$node->count()) {
@@ -295,39 +298,43 @@ class IndexCommand extends Command
             }
             if ($end || in_array($node->nodeName(), $endTag)) {
                 $end = true;
+
                 return;
             }
 
             return $this->replaceText($node->text());
         });
 
-        return join('  ', array_filter($contents));
+        return implode('  ', array_filter($contents));
     }
 
     /**
-     * 获取锚点名称
+     * 获取锚点名称.
      *
      * @param Crawler $node
+     *
      * @return string|null
      */
     protected function getAnchorName(Crawler $node)
     {
-        if (! $node->count()) {
+        if (!$node->count()) {
             return;
         }
 
         $name = $node->previousAll()->first()->filter('a[name]');
 
         return $name->count() ? $name->attr('name') :
-            (trim(str_replace([' ', '?', '#', '/', '\\', '&', '\'', "\"", '<', '>', '='], '', $node->text())).'-'.$node->nodeName());
+            (trim(str_replace([' ', '?', '#', '/', '\\', '&', '\'', '"', '<', '>', '='], '', $node->text())).'-'.$node->nodeName());
     }
 
     /**
-     * 获取文档内容
+     * 获取文档内容.
      *
      * @param $path
-     * @return string
+     *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     *
+     * @return string
      */
     protected function getDocContent($path)
     {
@@ -340,6 +347,7 @@ class IndexCommand extends Command
 
     /**
      * @param $content
+     *
      * @return string
      */
     protected function replaceText($content)
@@ -355,6 +363,7 @@ class IndexCommand extends Command
 
     /**
      * @param array $indices
+     *
      * @return string
      */
     protected function formatIndices(array $indices)
@@ -365,10 +374,11 @@ class IndexCommand extends Command
     }
 
     /**
-     * 二维数组按指定键去重
+     * 二维数组按指定键去重.
      *
-     * @param array $values
+     * @param array  $values
      * @param string $key
+     *
      * @return array
      */
     protected function unique(array $values, ?string $key)
@@ -386,5 +396,4 @@ class IndexCommand extends Command
 
         return array_values($values);
     }
-
 }

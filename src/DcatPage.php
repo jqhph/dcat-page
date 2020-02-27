@@ -26,10 +26,10 @@ class DcatPage
     protected static $allAppNames = [];
 
     /**
-     * 初始化
+     * 初始化.
      *
-     * @param string $app 应用名称
-     * @param bool $isCompiling
+     * @param string $app         应用名称
+     * @param bool   $isCompiling
      */
     public static function init(?string $app, bool $isCompiling = false)
     {
@@ -39,7 +39,7 @@ class DcatPage
     }
 
     /**
-     * 设置应用配置
+     * 设置应用配置.
      *
      * @param string|null $app
      */
@@ -62,7 +62,7 @@ class DcatPage
     }
 
     /**
-     * 判断项目是否在编译中
+     * 判断项目是否在编译中.
      *
      * @return bool
      */
@@ -72,7 +72,7 @@ class DcatPage
     }
 
     /**
-     * 监听编译事件
+     * 监听编译事件.
      *
      * @param $listener
      */
@@ -82,7 +82,7 @@ class DcatPage
     }
 
     /**
-     * 触发编译中事件
+     * 触发编译中事件.
      *
      * @param Console\CompileCommand $comman
      */
@@ -92,7 +92,7 @@ class DcatPage
     }
 
     /**
-     * 设置当前应用名称
+     * 设置当前应用名称.
      *
      * @param string|null $app
      */
@@ -102,7 +102,7 @@ class DcatPage
     }
 
     /**
-     * 获取当前应用名称
+     * 获取当前应用名称.
      *
      * @return string
      */
@@ -112,7 +112,7 @@ class DcatPage
     }
 
     /**
-     * 获取所有应用名称
+     * 获取所有应用名称.
      *
      * @return array
      */
@@ -123,5 +123,4 @@ class DcatPage
             app('files')->directories(Fun\path())
         ));
     }
-
 }

@@ -4,15 +4,15 @@ namespace Dcat\Page\Console;
 
 use Dcat\Page\DcatPage;
 use Dcat\Page\Http\Controllers\PageController;
+use function DcatPage\default_version;
+use function DcatPage\generate_doc_path_when_compiling;
+use function DcatPage\page;
+use function DcatPage\path;
+use function DcatPage\slug;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
-use function DcatPage\default_version;
-use function DcatPage\page;
-use function DcatPage\path;
-use function DcatPage\slug;
-use function DcatPage\generate_doc_path_when_compiling;
 
 class CompileCommand extends Command
 {
@@ -66,7 +66,7 @@ class CompileCommand extends Command
             $name = $this->getAllAppNames();
         }
 
-        foreach ((array)$name as $app) {
+        foreach ((array) $name as $app) {
             $this->compile($app);
 
             $this->counter = 0;
@@ -79,7 +79,7 @@ class CompileCommand extends Command
     }
 
     /**
-     * 编译
+     * 编译.
      *
      * @param $name
      */
@@ -108,7 +108,7 @@ class CompileCommand extends Command
     }
 
     /**
-     * 生成构建目录
+     * 生成构建目录.
      *
      * @param $name
      */
@@ -124,7 +124,7 @@ class CompileCommand extends Command
     }
 
     /**
-     * 构建页面
+     * 构建页面.
      *
      * @param $name
      */
@@ -134,7 +134,7 @@ class CompileCommand extends Command
         $dist = $this->getDistPath();
 
         collect($this->files->allFiles($from, true))->each(function (SplFileInfo $fileInfo) use ($name, $from, $dist) {
-            $view =  trim(
+            $view = trim(
                 str_replace(
                     [$from, '\\', '.blade', '.php'],
                     ['', '/', '', ''],
@@ -178,11 +178,10 @@ class CompileCommand extends Command
 </html>
 HTML
         );
-        return;
     }
 
     /**
-     * 构建文档
+     * 构建文档.
      *
      * @param $name
      */
@@ -202,7 +201,7 @@ HTML
     }
 
     /**
-     * 生成文档
+     * 生成文档.
      *
      * @param $name
      * @param $doc
@@ -219,18 +218,18 @@ HTML
         $path = $path ?: ($this->getDistPath().'/'.generate_doc_path_when_compiling($version, $doc));
 
         $this->putContent($path, $this->replaceDocumentAssetsLinks($path, $version, $content));
-
     }
 
     /**
      * @param $path
      * @param $version
      * @param string|null $content
+     *
      * @return string
      */
     protected function replaceDocumentAssetsLinks($path, $version, ?string $content)
     {
-        if (! Str::contains($path, $version)) {
+        if (!Str::contains($path, $version)) {
             return $content;
         }
 
@@ -253,6 +252,7 @@ HTML
 
     /**
      * @param $content
+     *
      * @return string
      */
     protected function htmlspecialchars($content)
@@ -267,6 +267,7 @@ HTML
 
     /**
      * @param $content
+     *
      * @return string
      */
     protected function htmlspecialcharsDecode($content)
@@ -281,16 +282,17 @@ HTML
 
     /**
      * @param $url
+     *
      * @return string
      */
     protected function getDocumentAssetsUrl($url)
     {
         if (
             $url
-            && ! in_array($url, ['#'])
+            && !in_array($url, ['#'])
             && strpos($url, '#') !== 0
-            && ! Str::contains($url, 'javascript:')
-            && ! Str::contains($url, '//')
+            && !Str::contains($url, 'javascript:')
+            && !Str::contains($url, '//')
         ) {
             $url = '../../'.$url;
         }
@@ -299,7 +301,7 @@ HTML
     }
 
     /**
-     * 复制静态资源
+     * 复制静态资源.
      *
      * @param $name
      */
@@ -322,9 +324,10 @@ HTML
     }
 
     /**
-     * 获取页面目录
+     * 获取页面目录.
      *
      * @param $name
+     *
      * @return string
      */
     public function getPagesPath($name)
@@ -333,7 +336,7 @@ HTML
     }
 
     /**
-     * 获取编译目录
+     * 获取编译目录.
      *
      * @return mixed
      */
@@ -343,9 +346,10 @@ HTML
     }
 
     /**
-     * 拼接编译目录
+     * 拼接编译目录.
      *
      * @param $name
+     *
      * @return string
      */
     protected function createDistPath($name)
@@ -356,22 +360,23 @@ HTML
     }
 
     /**
-     * 拼接编译目录
+     * 拼接编译目录.
      *
      * @param $name
      * @param $dirName
+     *
      * @return string
      */
     public function getDistBasePath($name, $dirName)
     {
-        if (! $path = $this->option('path')) {
+        if (!$path = $this->option('path')) {
             return $this->path($name.DIRECTORY_SEPARATOR.'_dist_'.DIRECTORY_SEPARATOR.$dirName);
         }
 
         // 如果指定了路径
         $path = $this->replaceDistPath($path, $name);
 
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             $this->files->makeDirectory($path, 0755, true);
         }
 
@@ -379,9 +384,10 @@ HTML
     }
 
     /**
-     * 获取编译文件夹名称
+     * 获取编译文件夹名称.
      *
      * @param $name
+     *
      * @return false|string
      */
     public function getDir($name)
@@ -390,7 +396,7 @@ HTML
 
         $fullPath = rtrim($this->getDistBasePath($name, ''), '/');
 
-        if (! is_dir($fullPath)) {
+        if (!is_dir($fullPath)) {
             return $dir;
         }
 
@@ -403,14 +409,17 @@ HTML
             }
         });
 
-        if (!$same) return $dir;
+        if (!$same) {
+            return $dir;
+        }
 
-        return $dir . '-' . ($same);
+        return $dir.'-'.($same);
     }
 
     /**
-     * @param  string  $path
-     * @param  string  $name
+     * @param string $path
+     * @param string $name
+     *
      * @return string
      */
     protected function replaceDistPath($path, $name)
@@ -419,7 +428,7 @@ HTML
     }
 
     /**
-     * 获取所有应用名称
+     * 获取所有应用名称.
      *
      * @return array
      */
@@ -427,5 +436,4 @@ HTML
     {
         return DcatPage::getAllAppNames();
     }
-
 }

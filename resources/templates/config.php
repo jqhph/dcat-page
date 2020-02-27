@@ -3,15 +3,15 @@
 return [
     'authors' => [
         [
-            'name' => 'Your name',
-            'email' => 'Your email'
-        ]
+            'name'  => 'Your name',
+            'email' => 'Your email',
+        ],
     ],
-    'homepage' => '',
+    'homepage'    => '',
     'description' => 'Description...',
-    'website' => [
-        'title' => 'Dcat Page',
-        'keywords' => '',
+    'website'     => [
+        'title'       => 'Dcat Page',
+        'keywords'    => '',
         'description' => '',
     ],
     'doc' => [
@@ -25,14 +25,14 @@ return [
         'ignore' => [],
     ],
     'comment' => [
-        'enable' => true,
-        'clientID' => 'xxx',
-        'clientSecret' => 'xxx',
-        'repo' => 'xxx',
-        'owner' => 'xxx',
-        'admin' => ['xxx'],
-        'language' => 'zh-CN', // 支持 [en, zh-CN, zh-TW]。
-        'perPage' => 15,
+        'enable'         => true,
+        'clientID'       => 'xxx',
+        'clientSecret'   => 'xxx',
+        'repo'           => 'xxx',
+        'owner'          => 'xxx',
+        'admin'          => ['xxx'],
+        'language'       => 'zh-CN', // 支持 [en, zh-CN, zh-TW]。
+        'perPage'        => 15,
         'pagerDirection' => 'first', // last first
     ],
 ];

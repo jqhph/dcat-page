@@ -4,17 +4,18 @@ namespace Dcat\Page\Http\Controllers;
 
 use Dcat\Page\Documentation;
 use Dcat\Page\Http\Assets;
-use Illuminate\Routing\Controller;
 use DcatPage;
+use Illuminate\Routing\Controller;
 use Symfony\Component\DomCrawler\Crawler;
 
 class PageController extends Controller
 {
     /**
-     * 应用页面
+     * 应用页面.
      *
      * @param string $app
      * @param string $view
+     *
      * @return \Illuminate\View\View
      */
     public function page($app, $view = 'index')
@@ -23,11 +24,12 @@ class PageController extends Controller
     }
 
     /**
-     * 应用文档页面
+     * 应用文档页面.
      *
      * @param $app
      * @param null $version
      * @param null $doc
+     *
      * @return mixed
      */
     public function doc($app, $version = null, $doc = null)
@@ -42,7 +44,7 @@ class PageController extends Controller
 
         $docs = Documentation::make();
 
-        if (! $this->isVersion($docs, $version)) {
+        if (!$this->isVersion($docs, $version)) {
             return redirect(DcatPage\url('docs/'.DcatPage\default_version().'/'.$page), 301);
         }
 
@@ -51,14 +53,14 @@ class PageController extends Controller
 
         if (is_null($content)) {
             return response()->view(DcatPage\view_name('pages.docs'), [
-                'title' => 'Page not found',
-                'index' => $docs->getIndex($version),
-                'content' => DcatPage\view('partials.doc-missing'),
+                'title'          => 'Page not found',
+                'index'          => $docs->getIndex($version),
+                'content'        => DcatPage\view('partials.doc-missing'),
                 'currentVersion' => $version,
-                'versions' => $docs->getVersions(),
+                'versions'       => $docs->getVersions(),
                 'currentSection' => $page,
-                'canonical' => null,
-                'showSwitcher' => true,
+                'canonical'      => null,
+                'showSwitcher'   => true,
             ], 404);
         }
 
@@ -68,7 +70,7 @@ class PageController extends Controller
 
         if ($docs->sectionExists($version, $page)) {
             $section .= '/'.$page;
-        } elseif (! is_null($page)) {
+        } elseif (!is_null($page)) {
             return redirect(DcatPage\url('/docs/'.$version));
         }
 
@@ -79,22 +81,23 @@ class PageController extends Controller
         }
 
         return DcatPage\page('docs')->with([
-            'title' => count($title) ? $title->text() : null,
-            'index' => $docs->getIndex($version),
-            'content' => $content,
+            'title'          => count($title) ? $title->text() : null,
+            'index'          => $docs->getIndex($version),
+            'content'        => $content,
             'currentVersion' => $version,
-            'versions' => $docs->getVersions(),
+            'versions'       => $docs->getVersions(),
             'currentSection' => $section,
-            'canonical' => $canonical,
-            'showSwitcher' => true,
+            'canonical'      => $canonical,
+            'showSwitcher'   => true,
         ]);
     }
 
     /**
-     * 应用静态资源加载
+     * 应用静态资源加载.
      *
      * @param $app
      * @param $path
+     *
      * @return \Illuminate\Http\Response
      */
     public function resource($app, $path)
@@ -105,15 +108,15 @@ class PageController extends Controller
     }
 
     /**
-     * 判断版本号
+     * 判断版本号.
      *
      * @param Documentation $docs
      * @param $version
+     *
      * @return bool
      */
     protected function isVersion(Documentation $docs, $version)
     {
         return in_array($version, $docs->getVersions());
     }
-
 }
