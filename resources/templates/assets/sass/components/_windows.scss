@@ -15,9 +15,9 @@ $topColor: lighten($bottomColor, 2%);
 	.top-bar {
 		height: 30px;
 		border-radius: 4px 4px 0 0;
-		border-top: thin solid #222;
-		border-bottom: thin solid #222;
-		background: #222;
+		border-top: thin solid #ddd;
+		border-bottom: thin solid #ddd;
+		background: #ddd;
 	}
 	.circle {
 		height: 8px;
@@ -47,7 +47,7 @@ $topColor: lighten($bottomColor, 2%);
 }
 
 .browser-window .window-content pre[class*="language-"] {
-	background: #333;
+	background: rgba(238, 238, 238, 0.35);
 	margin: 0;
 }
 

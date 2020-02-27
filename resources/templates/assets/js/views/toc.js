@@ -5,7 +5,7 @@ function init() {
     var options = {
             min_width: '1440px',
             max_layer: 3,
-            left: 85,
+            left: 100,
         },
         $container = $('body article'),
         docm = document,
@@ -84,7 +84,7 @@ function init() {
                 $(item).attr('id', 'target' + id);
                 $(item).addClass('target-name');
 
-                $tocContent.append('<li><a class="nav-item ' + className + ' anchor-link" onclick="return false;" href="#target' + id + '" link="#target' + id + '">' + text + '</a></li>');
+                $tocContent.append(`<li><a class="nav-item ${className} anchor-link" onclick="return false;" href="#target${id}" link="#target${id}">${text}</a></li>`);
             }
 
             hTags.forEach(function (title, i) {
@@ -100,7 +100,7 @@ function init() {
                 $(item).attr('id', 'target' + id);
                 $(item).addClass('target-name');
 
-                $tocContent.append('<li><a class="nav-item ' + className + ' anchor-link" onclick="return false;" href="#target' + id + '" link="#target' + id + '">' + text + '</a></li>');
+                $tocContent.append(`<li><a class="nav-item ${className} anchor-link" onclick="return false;" href="#target${id}" link="#target${id}">${text}</a></li>`);
 
             });
 

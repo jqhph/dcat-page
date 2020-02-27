@@ -11,19 +11,19 @@ const search = require('./views/search.js');
 const slide = require('./views/slide-menu.js');
 
 jQuery(function($) {
-    // Smooth scroll to anchor
-    $('body.home a[href*="#"]:not([href="#"])').click(function() {
-        if (location.pathname.replace(/^\//,'') === this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-            var target = $(this.hash);
-            target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-            if (target.length) {
-                $('html,body').animate({
-                    scrollTop: target.offset().top
-                }, 1000);
-                return false;
-            }
-        }
-    });
+  // Smooth scroll to anchor
+  $('body.home a[href*="#"]:not([href="#"])').click(function() {
+    if (location.pathname.replace(/^\//,'') === this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $('html,body').animate({
+          scrollTop: target.offset().top
+        }, 1000);
+        return false;
+      }
+    }
+  });
 
     var $top = $('#go-top');
     // 滚动锚点
@@ -65,8 +65,8 @@ jQuery(function($) {
         gitalk.render('comment-container');
     }
 
-    doc.init();
-    search.init();
-    slide.init();
+  doc.init();
+  search.init();
+  slide.init();
 
 });
