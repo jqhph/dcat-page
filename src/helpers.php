@@ -4,17 +4,17 @@ namespace DcatPage
 {
 
     use Dcat\Page\DcatPage;
-    use Dcat\Page\Documentation;
     use Illuminate\Support\Str;
 
     \define('DCAT_PAGE_VERSION', DcatPage::NAME);
 
     /**
-     * 获取配置
+     * 获取配置.
      *
      * @param null $key
      * @param null $default
-     * @param null $app 应用名称
+     * @param null $app     应用名称
+     *
      * @return \Illuminate\Config\Repository|mixed
      */
     function config($key = null, $default = null, $app = null)
@@ -24,7 +24,6 @@ namespace DcatPage
         $name = DcatPage::NAME;
 
         if ($key === null) {
-
             return \config("$name.$app");
         }
 
@@ -32,9 +31,10 @@ namespace DcatPage
     }
 
     /**
-     * 获取文档默认版本号
+     * 获取文档默认版本号.
      *
      * @param null $app 应用名称
+     *
      * @return \Illuminate\Config\Repository|mixed
      */
     function default_version($app = null)
@@ -43,10 +43,11 @@ namespace DcatPage
     }
 
     /**
-     * 获取应用路径
+     * 获取应用路径.
      *
      * @param $path
      * @param string $app 应用名称
+     *
      * @return string
      */
     function path($path = null, $app = null)
@@ -65,14 +66,15 @@ namespace DcatPage
     }
 
     /**
-     * SVG helper
+     * SVG helper.
      *
      * @param string $src Path to svg in the cp image directory
+     *
      * @return string
      */
     function svg($src)
     {
-        return file_get_contents(path('public/assets/svg/' . trim($src, '/') . '.svg'));
+        return file_get_contents(path('public/assets/svg/'.trim($src, '/').'.svg'));
     }
 
     /**
@@ -84,10 +86,11 @@ namespace DcatPage
     }
 
     /**
-     * 获取静态资源路径
+     * 获取静态资源路径.
      *
      * @param $path
      * @param null $app 应用名称
+     *
      * @return string
      */
     function asset($path, $app = null)
@@ -108,10 +111,11 @@ namespace DcatPage
     }
 
     /**
-     * 获取页面链接
+     * 获取页面链接.
      *
      * @param $url
      * @param null $app
+     *
      * @return string
      */
     function url($url, $app = null)
@@ -140,10 +144,11 @@ namespace DcatPage
     }
 
     /**
-     * 获取文档链接
+     * 获取文档链接.
      *
      * @param $doc
      * @param null $version
+     *
      * @return mixed|string
      */
     function doc_url($doc, $version = null)
@@ -158,10 +163,11 @@ namespace DcatPage
     }
 
     /**
-     * 生成编译环境的文档路径
+     * 生成编译环境的文档路径.
      *
      * @param string $version
      * @param string $doc
+     *
      * @return mixed
      */
     function generate_doc_path_when_compiling($version, $doc)
@@ -174,10 +180,11 @@ namespace DcatPage
     }
 
     /**
-     * 获取页面视图
+     * 获取页面视图.
      *
      * @param $view
      * @param null $app
+     *
      * @return \Illuminate\View\View
      */
     function page($view, $app = null)
@@ -194,10 +201,11 @@ namespace DcatPage
     }
 
     /**
-     * 获取页面视图名称
+     * 获取页面视图名称.
      *
      * @param $view
      * @param null $app
+     *
      * @return string
      */
     function view_name($view, $app = null)
@@ -210,10 +218,11 @@ namespace DcatPage
     }
 
     /**
-     * 获取视图
+     * 获取视图.
      *
      * @param $view
      * @param null $app
+     *
      * @return \Illuminate\View\View
      */
     function view($view, $app = null)
@@ -226,10 +235,11 @@ namespace DcatPage
     }
 
     /**
-     * 渲染视图
+     * 渲染视图.
      *
      * @param $view
      * @param null $app
+     *
      * @return string
      */
     function render($view, array $vars = [])
@@ -238,10 +248,11 @@ namespace DcatPage
     }
 
     /**
-     * 获取css引入html
+     * 获取css引入html.
      *
      * @param $path
      * @param null $app
+     *
      * @return string
      */
     function html_css($path, $app = null)
@@ -254,10 +265,11 @@ HTML;
     }
 
     /**
-     *  获取js引入html
+     *  获取js引入html.
      *
      * @param $path
      * @param null $app
+     *
      * @return string
      */
     function html_js($path, $app = null)
@@ -274,16 +286,16 @@ HTML;
      *
      * @param string $name
      * @param string $symbol
+     *
      * @return mixed
      */
     function slug(string $name, string $symbol = '-')
     {
         $text = preg_replace_callback('/([A-Z])/', function (&$text) use ($symbol) {
-            return $symbol . strtolower($text[1]);
+            return $symbol.strtolower($text[1]);
         }, $name);
 
         return str_replace('_', $symbol, ltrim($text, $symbol));
     }
 
 }
-

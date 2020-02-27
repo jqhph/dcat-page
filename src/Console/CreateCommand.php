@@ -106,7 +106,7 @@ TREE;
         /* @var Filesystem $files */
         $files = app('files');
 
-        if (! is_dir($to)) {
+        if (!is_dir($to)) {
             $files->makeDirectory($to, 0755, true);
         }
 
@@ -123,5 +123,4 @@ TREE;
     {
         return dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'templates';
     }
-
 }

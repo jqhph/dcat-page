@@ -5,12 +5,12 @@ namespace Dcat\Page\Http;
 use Illuminate\Http\Response;
 
 /**
- * http请求静态文件处理类
+ * http请求静态文件处理类.
  */
 class Assets
 {
     /**
-     * 文件类型返回配置
+     * 文件类型返回配置.
      *
      * @var array
      */
@@ -77,12 +77,13 @@ class Assets
     }
 
     /**
-     * 读取请求文件
+     * 读取请求文件.
      *
      * @param $path
-     * @return Response
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @return Response
      */
     public static function response($path)
     {
@@ -94,9 +95,10 @@ class Assets
     }
 
     /**
-     * 发送文件
+     * 发送文件.
      *
      * @param string $path 文件完整路径
+     *
      * @return Response
      */
     public static function makeResponseWithPath(string $path)
@@ -105,9 +107,9 @@ class Assets
         $extension = isset($fileInfo['extension']) ? $fileInfo['extension'] : '';
 
         $headers = [
-            'Content-Type' => 'application/octet-stream',
+            'Content-Type'        => 'application/octet-stream',
             'Content-Disposition' => '',
-            'Connection' => 'keep-alive',
+            'Connection'          => 'keep-alive',
         ];
 
         if (!empty(static::$mimeTypeMap[$extension])) {
@@ -120,9 +122,10 @@ class Assets
     }
 
     /**
-     * 根据请求地址查找文件路径
+     * 根据请求地址查找文件路径.
      *
      * @param string $path
+     *
      * @return null|string
      */
     public static function getFullPath(string $path)

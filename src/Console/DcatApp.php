@@ -10,7 +10,7 @@ trait DcatApp
     protected $appName;
 
     /**
-     * 获取应用名称
+     * 获取应用名称.
      *
      * @return mixed
      */
@@ -30,7 +30,7 @@ trait DcatApp
     }
 
     /**
-     * 设置应用名称
+     * 设置应用名称.
      *
      * @param $name
      */
@@ -40,9 +40,10 @@ trait DcatApp
     }
 
     /**
-     * 获取应用目录
+     * 获取应用目录.
      *
      * @param $name
+     *
      * @return string
      */
     public function path($name)
@@ -51,9 +52,10 @@ trait DcatApp
     }
 
     /**
-     * 判断应用目录是否存在
+     * 判断应用目录是否存在.
      *
      * @param $name
+     *
      * @return bool
      */
     public function exist($name)
@@ -62,10 +64,11 @@ trait DcatApp
     }
 
     /**
-     * 写文件
+     * 写文件.
      *
      * @param $path
      * @param $content
+     *
      * @return bool|int
      */
     public function putContent($path, $content)
@@ -88,6 +91,7 @@ trait DcatApp
 
     /**
      * @param $doc
+     *
      * @return bool
      */
     public function shouldSkip($doc)
@@ -99,7 +103,7 @@ trait DcatApp
                 \DcatPage\config('doc.index'),
                 'LICENSE',
                 'README',
-            ], (array)\DcatPage\config('doc.ignore')));
+            ], (array) \DcatPage\config('doc.ignore')));
         }
 
         return in_array($doc, $this->skipDocs);

@@ -2,13 +2,13 @@
 
 namespace Dcat\Page;
 
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Contracts\Cache\Repository as Cache;
-use Illuminate\Support\Str;
 use function DcatPage\asset;
+use function DcatPage\generate_doc_path_when_compiling;
 use function DcatPage\markdown;
 use function DcatPage\path;
-use function DcatPage\generate_doc_path_when_compiling;
+use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class Documentation
 {
@@ -24,8 +24,9 @@ class Documentation
     /**
      * Create a new documentation instance.
      *
-     * @param  Filesystem  $files
-     * @param  Cache  $cache
+     * @param Filesystem $files
+     * @param Cache      $cache
+     *
      * @return void
      */
     public function __construct(Filesystem $files, $basePath = null)
@@ -44,6 +45,7 @@ class Documentation
 
     /**
      * @param string $path
+     *
      * @return string
      */
     public function fullPath($path)
@@ -60,7 +62,8 @@ class Documentation
     /**
      * Get the documentation index page.
      *
-     * @param  string  $version
+     * @param string $version
+     *
      * @return string
      */
     public function getIndex($version, $index = 'documentation')
@@ -77,8 +80,9 @@ class Documentation
     /**
      * Get the given documentation page.
      *
-     * @param  string  $version
-     * @param  string  $page
+     * @param string $version
+     * @param string $page
+     *
      * @return string
      */
     public function get($version, $page)
@@ -95,13 +99,16 @@ class Documentation
     /**
      * Replace the version place-holder in links.
      *
-     * @param  string  $version
-     * @param  string  $content
+     * @param string $version
+     * @param string $content
+     *
      * @return string
      */
     public static function replaceLinks($version, $content)
     {
-        if (!$content) return $content;
+        if (!$content) {
+            return $content;
+        }
 
         $path = '/'.trim(asset('/'), '/');
 
@@ -126,9 +133,10 @@ class Documentation
     /**
      * Check if the given section exists.
      *
-     * @param  string  $version
-     * @param  string  $page
-     * @return boolean
+     * @param string $version
+     * @param string $page
+     *
+     * @return bool
      */
     public function sectionExists($version, $page)
     {
@@ -139,6 +147,7 @@ class Documentation
 
     /**
      * @param null $basePath
+     *
      * @return static
      */
     public static function make($basePath = null)
@@ -159,5 +168,4 @@ class Documentation
 
         return $this->versions;
     }
-
 }
