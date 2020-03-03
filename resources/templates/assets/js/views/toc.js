@@ -45,7 +45,7 @@ function init() {
         var $toc = $('.toc'),
             $tocContent = $('#toc-content');
 
-        function setup_container() {
+        function resizeContainer() {
             if (!win.matchMedia(`(min-width:${options.min_width})`).matches) {
                 $toc.hide();
                 $tocContent.hide();
@@ -97,25 +97,29 @@ function init() {
                 id = title + '-' + i + '-' + counter[tag];
                 className = 'item-h' + i;
 
+                var children = i > 1 ? 'children' : '';
+
                 $(item).attr('id', 'target' + id);
                 $(item).addClass('target-name');
 
-                $tocContent.append(`<li><a class="nav-item ${className} anchor-link" onclick="return false;" href="#target${id}" link="#target${id}">${text}</a></li>`);
+                $tocContent.append(`<li class="${children}"><a class="nav-item ${className} anchor-link" onclick="return false;" href="#target${id}" link="#target${id}">${text}</a></li>`);
 
             });
 
-            setup_container();
+            resizeContainer();
         });
 
-        $win.on('resize', setup_container);
+        $win.on('resize', resizeContainer);
 
         $toc.find('.anchor-link').click(function () {
             $('html,body').animate({scrollTop: $($(this).attr('link')).offset().top}, 500);
         });
 
-        var tocNavs = $toc.find('li .nav-item');
-        var tocTops = [];
-        var scrollable = false;
+        var tocNavs = $toc.find('li .nav-item'),
+            tocTops = [],
+            scrollable = false,
+            activeClass = 'active',
+            deferActiveClass = 'defer-active';
 
         $('.target-name').each(function (i, n) {
             tocTops.push($(n).offset().top);
@@ -126,8 +130,8 @@ function init() {
             var $li = $(this).closest('li');
 
             // 标记选中的标题项
-            $toc.find('li').removeClass('____');
-            $li.addClass('____');
+            $toc.find('li').removeClass(deferActiveClass);
+            $li.addClass(deferActiveClass);
 
             // 添加默认选中效果
             setTimeout(function () {
@@ -136,9 +140,9 @@ function init() {
                 }
                 scrollable = false;
 
-                $toc.find('li').removeClass('active');
-                $li.addClass('active');
-            }, 180);
+                $toc.find('li').removeClass(activeClass);
+                $li.addClass(activeClass);
+            }, 200);
         });
 
         // 滚动选中
@@ -152,16 +156,16 @@ function init() {
                     $item = $(tocNavs[i]).closest('li');
 
                 if (distance >= 0) {
-                    $tocContent.find('li').removeClass('active');
-                    $item.addClass('active').removeClass('____');
+                    $tocContent.find('li').removeClass(activeClass);
+                    $item.addClass(activeClass).removeClass(deferActiveClass);
                     return false;
                 }
             });
 
-            if (scrollTop == 0) {
+            if (scrollTop === 0) {
                 $tocContent.animate({scrollTop: 0}, 100);
             }
-            if (scrollTop + $win.height() == $docm.height()) {
+            if (scrollTop + $win.height() === $docm.height()) {
                 $tocContent.animate({scrollTop: $tocContent.height()}, 100);
             }
 
@@ -172,11 +176,11 @@ function init() {
                 }
 
                 // 滚动结束后自动选中标记过的标题
-                $.each($tocContent.find('li'), function (k, v) {
+                $tocContent.find('li').each(function (k, v) {
                     let li = $(v);
-                    if (li.hasClass('____')) {
-                        $tocContent.find('li').removeClass('active');
-                        li.addClass('active').removeClass('____');
+                    if (li.hasClass(deferActiveClass)) {
+                        $tocContent.find('li').removeClass(activeClass);
+                        li.addClass(activeClass).removeClass(deferActiveClass);
                     }
                 });
 
@@ -218,7 +222,7 @@ function init() {
             return top + $win.height() === $docm.height();
         }
 
-        $toc.find('li').eq(0).addClass('active');
+        $toc.find('li').eq(0).addClass(activeClass);
     }
 
     build();
