@@ -47,7 +47,7 @@ class AdminController extends Controller
 
         $grid->number();
         $grid->app('应用')->label('primary');
-        $grid->description('描述')->width('360px');
+        $grid->column('description', '描述')->width('360px');
         $grid->homepage('主页')->display(function ($value) {
             if (!$value) {
                 return;
