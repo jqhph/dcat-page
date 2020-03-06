@@ -6,6 +6,8 @@ function init() {
             min_width: '1440px',
             max_layer: 3,
             left: 100,
+            scroll_top: 30,
+            targetClass: 'target-item',
         },
         $container = $('body article'),
         docm = document,
@@ -82,7 +84,7 @@ function init() {
                 className = 'item-h0';
 
                 $(item).attr('id', 'target' + id);
-                $(item).addClass('target-name');
+                $(item).addClass(options.targetClass);
 
                 $tocContent.append(`<li><a class="nav-item ${className} anchor-link" onclick="return false;" href="#target${id}" link="#target${id}">${text}</a></li>`);
             }
@@ -100,7 +102,7 @@ function init() {
                 var children = i > 1 ? 'children' : '';
 
                 $(item).attr('id', 'target' + id);
-                $(item).addClass('target-name');
+                $(item).addClass(options.targetClass);
 
                 $tocContent.append(`<li class="${children}"><a class="nav-item ${className} anchor-link" onclick="return false;" href="#target${id}" link="#target${id}">${text}</a></li>`);
 
@@ -111,19 +113,18 @@ function init() {
 
         $win.on('resize', resizeContainer);
 
-        $toc.find('.anchor-link').click(function () {
-            $('html,body').animate({scrollTop: $($(this).attr('link')).offset().top}, 500);
-        });
-
         var tocNavs = $toc.find('li .nav-item'),
-            tocTops = [],
+            tocTops = getAllTargetTops(),
             scrollable = false,
             activeClass = 'active',
             deferActiveClass = 'defer-active';
 
-        $('.target-name').each(function (i, n) {
-            tocTops.push($(n).offset().top);
+        $toc.find('.anchor-link').click(function () {
+            tocTops = getAllTargetTops();
+
+            $('html,body').animate({scrollTop: $($(this).attr('link')).offset().top - options.scroll_top}, 500);
         });
+
 
         // 标题点击事件
         tocNavs.click(function () {
@@ -220,6 +221,15 @@ function init() {
 
         function isScrollEnd(top) {
             return top + $win.height() === $docm.height();
+        }
+
+        function getAllTargetTops() {
+            var arr = [];
+            $container.find('.' + options.targetClass).each(function (i, n) {
+                arr.push($(n).offset().top);
+            });
+
+            return arr;
         }
 
         $toc.find('li').eq(0).addClass(activeClass);
