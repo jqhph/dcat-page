@@ -136,14 +136,23 @@
 		border-collapse: collapse;
 		width: 100%;
 		font-size: 13px;
+		border-top: 1px solid #f4f4f4;
+		border-left: 1px solid #f4f4f4;
+		border-right: 1px solid #f4f4f4;
 		th,
 		td {
-			border: 1px solid $color__lighter_gray;
 			padding: 10px;
 			text-align: left;
 		}
+		td {
+			height: 50px;
+		}
 		th {
-			font-size: 16px;
+			color: #7c858e;
+			background: #f4f7fa;
+		}
+		tr {
+			border-bottom: 1px solid #f3f3f3;
 		}
 	}
 

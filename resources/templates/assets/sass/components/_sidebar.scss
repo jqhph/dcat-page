@@ -39,9 +39,9 @@
 			width: 0;
 			height: 0;
 			border-top: 4px solid transparent;
-    		border-right: 4px solid transparent;
-    		border-left: 4px solid $color__lighter_gray;
-    		border-bottom: 4px solid transparent;
+			border-right: 4px solid transparent;
+			border-left: 4px solid $color__lighter_gray;
+			border-bottom: 4px solid transparent;
 			transform: rotate(180deg);
 		}
 
@@ -94,7 +94,11 @@
 				}
 
 				> li.active {
-					background: rgba($color__salmon, 0.1);
+					a {
+						border-bottom: 1px solid $color__salmon;
+						padding-bottom: 2px;
+						font-weight: bold;
+					}
 				}
 			}
 		}
@@ -102,9 +106,6 @@
 
 	a {
 		line-height: 30px;
-		&:hover {
-			color: $color__darker_salmon;
-		}
 	}
 }
 

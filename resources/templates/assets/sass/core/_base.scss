@@ -21,8 +21,11 @@ h1, h2, h3, h4 {
 }
 
 a {
-	color: $color__salmon;
+	color: $color__darker_salmon;
 	text-decoration: none;
+}
+a:hover {
+	color: $color__darkest_salmon;
 }
 
 h1 {
