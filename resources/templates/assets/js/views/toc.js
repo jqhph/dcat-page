@@ -114,14 +114,11 @@ function init() {
         $win.on('resize', resizeContainer);
 
         var tocNavs = $toc.find('li .nav-item'),
-            tocTops = getAllTargetTops(),
             scrollable = false,
             activeClass = 'active',
             deferActiveClass = 'defer-active';
 
         $toc.find('.anchor-link').click(function () {
-            tocTops = getAllTargetTops();
-
             $('html,body').animate({scrollTop: $($(this).attr('link')).offset().top - options.scroll_top}, 500);
         });
 
@@ -152,7 +149,7 @@ function init() {
                 timer;
             scrollable = true;
 
-            $.each(tocTops, function (i, n) {
+            $.each(getAllTargetTops(), function (i, n) {
                 var distance = n - scrollTop,
                     $item = $(tocNavs[i]).closest('li');
 
