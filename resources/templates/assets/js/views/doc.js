@@ -25,7 +25,7 @@ function init() {
     });
 
     // 如果是自动生成的锚点，需要重新设置 location.href 属性
-    function go_anchor() {
+    function goAnchor() {
         var url = location.href, path = window.document.location.pathname;
 
         if (url.indexOf('#') == -1) {
@@ -35,7 +35,7 @@ function init() {
         location.href = path + '#' + url.split('#')[1];
 
     }
-    go_anchor();
+    goAnchor();
 
 // It's nice to just write in Markdown, so this will adjust
 // our blockquote style to fill in the icon flag and label
@@ -116,7 +116,9 @@ function init() {
 
     function clearItems() {
         for (var i = 0; i < toggles.length; i++) {
-            if ($(toggles[i]).find('a').length) continue;
+            if ($(toggles[i]).find('a').length) {
+                continue;
+            }
 
             toggles[i].classList.remove('is-active');
         }
@@ -150,7 +152,9 @@ function init() {
     var docCollapsed = true;
     function expandDocs(e) {
         for (var i = 0; i < toggles.length; i++) {
-            if ($(toggles[i]).find('a').length) continue;
+            if ($(toggles[i]).find('a').length) {
+                continue;
+            }
 
             if(docCollapsed) {
                 toggles[i].classList.add('is-active')
@@ -209,6 +213,9 @@ function init() {
             }
 
             href = results.join('/');
+            if (href.indexOf('/') === -1) {
+                href = '/' + href;
+            }
 
             var path = window.location.pathname.replace('.md', '');
             if (path.indexOf(href) !== -1) {
