@@ -9,23 +9,33 @@ class CreateAppButton implements Renderable
 {
     public function render()
     {
-        Admin::style(
-            <<<'CSS'
-.popover {max-width:350px}
-CSS
-        );
-
         $this->setupScript();
 
         $label = '创建应用';
 
-        return "<a id='create-cms-app' class='btn btn-success btn-sm'><i class=\"glyphicon glyphicon-plus-sign\"></i><span class='hidden-xs'> &nbsp;$label</span></a>";
+        $submit = trans('admin.submit');
+
+        return <<<HTML
+<button id='create-cms-app' class='btn btn-outline-success'><i class="feather icon-plus"></i><span class='hidden-xs'> &nbsp;$label</span></button>
+<template id="create-app-input">
+    <div class="filter-input col-sm-12 mt-1" style="">
+        <div class="form-group">
+            <error></error>
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white"><i class="feather icon-edit-2"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Application Name" name="name" value="">
+                &nbsp;&nbsp; <span id="submit-create"  class="btn btn-primary btn-sm waves-effect waves-light">{$submit}</span>
+            </div>
+        </div>
+    </div>
+</template>
+HTML;
     }
 
     protected function setupScript()
     {
-        $submit = trans('admin.submit');
-
         $url = admin_base_path('dcat-page/create-app');
 
         Admin::script(
@@ -33,11 +43,7 @@ CSS
             
 $('#create-cms-app').popover({
     html: true,
-    title: false,
-    content: function () {
-        return '<div class="form-group " style="margin-top:5px"><error></error><div class="input-group input-group-sm"><span class="input-group-addon"><i class="ti-pencil"></i></span><input type="text" class="form-control " placeholder="Application Name" name="name" ></div></div>'
-        + '<button id="submit-create" class="btn btn-primary btn-sm waves-effect waves-light">{$submit}</button>'
-    }
+    content: $($('#create-app-input').html())
 });
 
 $('#create-cms-app').on('shown.bs.popover', function () {
@@ -56,21 +62,21 @@ $('#create-cms-app').on('shown.bs.popover', function () {
         
         $('.popover').loading();
         $.post('$url', {
-            _token: LA.token,
+            _token: Dcat.token,
             name: name,
         }, function (response) {
             $('.popover').loading(false);
         
            if (!response.status) {
-               LA.error(response.message);
+               Dcat.error(response.message);
            } else {
                $('#create-cms-app').popover('hide');
            }
            
-           $(document).one('pjax:complete', function () { // 跳转新页面时移除弹窗
-                $('.content').prepend('<div class="row"><div class="col-md-12">'+response.content+'</div></div>');
+           Dcat.onPjaxComplete(function () { // 跳转新页面时移除弹窗
+                $('.content-body').prepend('<div class="row"><div class="col-md-12">'+response.content+'</div></div>');
            });
-           LA.reload();
+           Dcat.reload();
            
         });
         

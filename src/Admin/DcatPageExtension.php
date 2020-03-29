@@ -14,14 +14,14 @@ class DcatPageExtension extends Extension
     protected $composer = __DIR__.'/../../composer.json';
 
     /**
-     * 初始化.
+     * 初始化
      */
     public function boot()
     {
         $this->registerMenu();
 
         $this->routes(function () {
-            Route::get('dcat-page', Controllers\AdminController::class.'@index');
+            Route::get('dcat-page',  Controllers\AdminController::class.'@index');
             Route::post('dcat-page/create-app', Controllers\AdminController::class.'@createApp');
             Route::post('dcat-page/compile-app', Controllers\AdminController::class.'@compileApp');
             Route::post('dcat-page/index-app', Controllers\AdminController::class.'@indexApp');
