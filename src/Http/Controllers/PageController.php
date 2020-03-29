@@ -37,7 +37,7 @@ class PageController extends Controller
         $page = $doc ?: DcatPage\config('doc.default', 'installation');
 
         if (!$version) {
-            return redirect(DcatPage\url('docs/'.DcatPage\default_version().'/'.$page), 301);
+            return redirect(DcatPage\url('docs/'.DcatPage\default_version().'/'.$page));
         }
 
         $version = $version ?: DcatPage\default_version();
@@ -45,7 +45,7 @@ class PageController extends Controller
         $docs = Documentation::make();
 
         if (!$this->isVersion($docs, $version)) {
-            return redirect(DcatPage\url('docs/'.DcatPage\default_version().'/'.$page), 301);
+            return redirect(DcatPage\url('docs/'.DcatPage\default_version().'/'.$page));
         }
 
         $sectionPage = $page ?: 'installation';
