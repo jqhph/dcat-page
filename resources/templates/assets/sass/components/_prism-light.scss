@@ -7,7 +7,7 @@
 
 .docs article code[class*="language-"],
 .docs article pre[class*="language-"] {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.49;
   vertical-align: middle;
 }
@@ -63,7 +63,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-  background: rgba(238, 238, 238, 0.35);
+  background: $color__code__bg;
   // background: $color__faint;
   border-radius: 3px;
   padding: 10px;
@@ -72,9 +72,9 @@ pre[class*="language-"] {
 
 /* Inline code */
 :not(pre) > code[class*="language-"] {
-  background: $color__faint;
+  background: #f7f7f9;
   color: $color__salmon;
-  padding: 1px 5px;
+  padding: 3px 5px;
   border-radius: 3px;
 }
 

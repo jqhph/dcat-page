@@ -47,7 +47,7 @@ $topColor: lighten($bottomColor, 2%);
 }
 
 .browser-window .window-content pre[class*="language-"] {
-	background: rgba(238, 238, 238, 0.35);
+	background: $color__code__bg;
 	margin: 0;
 }
 

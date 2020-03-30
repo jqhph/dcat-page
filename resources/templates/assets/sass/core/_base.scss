@@ -57,7 +57,7 @@ code, kbd, pre, samp {
 }
 
 blockquote {
-	background: #64B5F6;
+	background: $color__info;
 	color: #fff;
 	border-radius: 3px;
 	margin: 10px 0 20px;
@@ -81,6 +81,10 @@ blockquote p{
 	margin-right: 15px;
 	margin-left: 15px;
 	flex-basis: 33.333333%;
+}
+
+.text-primary {
+	color: $color__salmon;
 }
 
 
