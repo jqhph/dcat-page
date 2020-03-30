@@ -11,7 +11,7 @@ class CompileButton implements Renderable
     {
         $this->setupScript();
 
-        return "<a class='compile-app btn btn-primary btn-sm'><i class='ti-write'></i><span class='hidden-xs'>&nbsp; 编译</span></a>&nbsp; ";
+        return "<button class='compile-app btn btn-outline-primary'><i class='feather icon-edit-1'></i><span class='hidden-xs'>&nbsp; 编译</span></button>&nbsp; ";
     }
 
     protected function setupScript()
@@ -20,17 +20,32 @@ class CompileButton implements Renderable
 
         $url = admin_base_path('dcat-page/compile-app');
 
+        Admin::html(
+            <<<HTML
+<template id="compile-app-input">
+    <div class="filter-input col-sm-12 mt-1" style="">
+        <div class="form-group">
+            <error></error>
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white"><i class="feather icon-edit-2"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Dir" name="dir" value="">
+                &nbsp;&nbsp; <span id="submit-create"  class="btn btn-primary btn-sm waves-effect waves-light">{$submit}</span>
+            </div>
+        </div>
+    </div>
+</template>
+HTML
+        );
+
         Admin::script(
             <<<JS
             
 $('.compile-app').popover({
     html: true,
-    title: false,
     placement: 'bottom',
-    content: function () {
-        return '<div class="form-group " style="margin-top:5px"><error></error><div class="input-group input-group-sm"><span class="input-group-addon"><i class="ti-pencil"></i></span><input type="text" class="form-control " placeholder="Dir" name="dir" ></div></div>'
-        + '<button id="submit-create" class="btn btn-primary btn-sm waves-effect waves-light">{$submit}</button>'
-    }
+    content: $($('#compile-app-input').html())
 });
 
 $('.compile-app').on('shown.bs.popover', function () {
@@ -48,19 +63,19 @@ $('.compile-app').on('shown.bs.popover', function () {
         
         $('.popover').loading();
         $.post('$url', {
-            _token: LA.token,
+            _token: Dcat.token,
             dir: dir,
             name: name,
         }, function (response) {
             $('.popover').loading(false);
         
            if (!response.status) {
-               LA.error(response.message);
+               Dcat.error(response.message);
            } else {
                $('.compile-app').popover('hide');
            }
            
-           $('.content').prepend('<div class="row"><div class="col-md-12">'+response.content+'</div></div>');
+           $('.content-body').prepend('<div class="row"><div class="col-md-12">'+response.content+'</div></div>');
         });
         
     });

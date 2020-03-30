@@ -2,9 +2,9 @@
 
 namespace Dcat\Page\Admin\Repositories;
 
+use Dcat\Page\DcatPage;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Repositories\Repository;
-use Dcat\Page\DcatPage;
 
 class App extends Repository
 {
@@ -17,9 +17,9 @@ class App extends Repository
 
             $config = \DcatPage\config();
 
-            $authors = $config['authors'];
+            $authors     = $config['authors'];
             $description = $config['description'] ?? null;
-            $homepage = $config['homepage'] ?? null;
+            $homepage    = $config['homepage'] ?? null;
 
             unset(
                 $config['authors'],

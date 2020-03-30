@@ -11,7 +11,7 @@ class IndexButton implements Renderable
     {
         $this->setupScript();
 
-        return "<a class='index-app btn btn-primary btn-sm'><i class='ti-server'></i><span class='hidden-xs'>&nbsp; 索引</span></a>&nbsp; ";
+        return "<button class='index-app btn btn-outline-primary'><i class='feather icon-server'></i><span class='hidden-xs'>&nbsp; 索引</span></button>&nbsp; ";
     }
 
     protected function setupScript()
@@ -24,18 +24,18 @@ class IndexButton implements Renderable
 $('.index-app').on('click', function () {
     var name = $(this).data('app'), self = $(this);
     
-    LA.loading();
+    Dcat.loading();
     $.post('$url', {
-        _token: LA.token,
+        _token: Dcat.token,
         name: name,
     }, function (response) {
-         LA.loading(false);
+         Dcat.loading(false);
     
        if (!response.status) {
-           LA.error(response.message);
+           Dcat.error(response.message);
        }
        
-       $('.content').prepend('<div class="row"><div class="col-md-12">'+response.content+'</div></div>');
+       $('.content-body').prepend('<div class="row"><div class="col-md-12">'+response.content+'</div></div>');
     });
     
 });

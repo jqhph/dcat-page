@@ -2,25 +2,25 @@
 
 namespace Dcat\Page\Admin\Controllers;
 
-use Dcat\Admin\Grid;
-use Dcat\Admin\Layout\Content;
-use Dcat\Admin\Widgets\Box;
-use Dcat\Admin\Widgets\Table;
-use Dcat\Admin\Widgets\Terminal;
+use Dcat\Admin\Widgets\Card;
+use DcatPage;
+use Illuminate\Routing\Controller;
 use Dcat\Page\Admin\Grid\CompileButton;
 use Dcat\Page\Admin\Grid\CreateAppButton;
 use Dcat\Page\Admin\Grid\IndexButton;
 use Dcat\Page\Admin\Repositories\App;
-use DcatPage;
-use Illuminate\Routing\Controller;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Widgets\Box;
+use Dcat\Admin\Widgets\Terminal;
+use Dcat\Admin\Widgets\Table;
 
 class AdminController extends Controller
 {
     /**
-     * 应用管理页面.
+     * 应用管理页面
      *
      * @param Content $content
-     *
      * @return Content
      */
     public function index(Content $content)
@@ -32,7 +32,7 @@ class AdminController extends Controller
     }
 
     /**
-     * 构建应用列表.
+     * 构建应用列表
      *
      * @return Grid
      */
@@ -49,31 +49,25 @@ class AdminController extends Controller
         $grid->app('应用')->label('primary');
         $grid->column('description', '描述')->width('360px');
         $grid->homepage('主页')->display(function ($value) {
-            if (!$value) {
-                return;
-            }
+            if (!$value) return;
 
             return "<a href='$value' target='_blank'></a>";
         });
         $grid->authors('开发者')->display(function ($v) {
-            if (!$v) {
-                return;
-            }
+            if (!$v) return;
 
             foreach ($v as &$item) {
                 $item = "<span class='bold text-80'>{$item['name']}</span> <<code>{$item['email']}</code>>";
             }
 
-            return implode('<br/>', $v);
+            return join('<br/>', $v);
         });
 
         $self = $this;
         $grid->config('配置')->display('详细')->expand(function () use ($self) {
-            if (!$this->config) {
-                return;
-            }
+            if (!$this->config) return;
 
-            return $self->buildTable((array) $this->config);
+            return $self->formatConfigData((array)$this->config);
         });
 
         $grid->action('操作')->display(function () {
@@ -96,7 +90,7 @@ HTML;
     }
 
     /**
-     * 创建应用接口.
+     * 创建应用接口
      *
      * @return mixed
      */
@@ -105,23 +99,20 @@ HTML;
         $name = request('name');
 
         $box = Box::make("<span>DcatPage:create <small>$name</small></span>")
-            ->content(Terminal::call('dcatpage:create', ['name' => $name]))
-            ->style('default')
-            ->collapsable()
-            ->removable();
+            ->content(Terminal::call('dcatpage:create', ['name' => $name]));
 
         return response()->json(['status' => true, 'content' => $box->render()]);
     }
 
     /**
-     * 编译应用接口.
+     * 编译应用接口
      *
      * @return mixed
      */
     public function compileApp()
     {
         $name = request('name');
-        $dir = request('dir');
+        $dir  = request('dir');
 
         $title = '';
         if ($dir) {
@@ -129,16 +120,13 @@ HTML;
         }
 
         $box = Box::make("<span>DcatPage:compile <small>$name $title</small></span>")
-            ->content(Terminal::call('dcatpage:compile', ['name' => $name, '--dir' => $dir]))
-            ->style('default')
-            ->collapsable()
-            ->removable();
+            ->content(Terminal::call('dcatpage:compile', ['name' => $name, '--dir' => $dir]));
 
         return response()->json(['status' => true, 'content' => $box->render()]);
     }
 
     /**
-     * 生成索引接口.
+     * 生成索引接口
      *
      * @return mixed
      */
@@ -147,30 +135,19 @@ HTML;
         $name = request('name');
 
         $box = Box::make("<span>DcatPage:index <small>$name</small></span>")
-            ->content(Terminal::call('dcatpage:index', ['name' => $name]))
-            ->style('default')
-            ->collapsable()
-            ->removable();
+            ->content(Terminal::call('dcatpage:index', ['name' => $name]));
 
         return response()->json(['status' => true, 'content' => $box->render()]);
     }
 
     /**
-     * 构建表格
-     *
      * @param array $data
-     *
      * @return Table
      */
-    protected function buildTable(array $data)
+    protected function formatConfigData(array $data)
     {
-        $rows = [];
-        foreach ($data as $k => $v) {
-            $k = "<b class='text-80'>$k</b>";
+        $data = json_encode($data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
 
-            $rows[$k] = $v;
-        }
-
-        return Table::make([], $rows);
+        return Card::make("<pre>$data</pre>")->class('mb-0', true);
     }
 }
