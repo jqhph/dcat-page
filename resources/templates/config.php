@@ -35,4 +35,10 @@ return [
         'perPage'        => 15,
         'pagerDirection' => 'first', // last first
     ],
+    'edit-config' => [
+        'label' => '<i class="fa fa-github"></i> 编辑此页',
+        'values' => [
+            'installation' => 'https://github.com/xxx/xxx/edit/master/installation.md',
+        ],
+    ],
 ];

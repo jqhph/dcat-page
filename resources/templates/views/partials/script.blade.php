@@ -3,7 +3,7 @@
     $currentSection = isset($currentSection) ? $currentSection : null;
 @endphp
 <script>
-    var DMS = {
+    var DcatPage = {
         version: '{{ $currentVersion }}',
 
         getDocUrl: function (doc) {
@@ -16,12 +16,10 @@
             return temp.replace('{doc}', doc);
         },
 
-        config: {
-            comment: {!! json_encode(\DcatPage\config('comment') ?: []) !!}
-        },
+        config: {!! json_encode(\DcatPage\config()) !!},
     };
 
-    DMS.config.comment.id = '{{$currentVersion}}/{{trim($currentSection, '/')}}';
+    DcatPage.config.comment.id = '{{$currentVersion}}/{{trim($currentSection, '/')}}';
 
     (function () {
         function indices() {

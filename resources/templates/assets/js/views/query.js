@@ -2,7 +2,7 @@
 const Fuse = require('../vendor/fuse.js');
 
 var Query = (function () {
-    var version = DMS.version,
+    var version = DcatPage.version,
         placeholder = '⋆',
         indices = [],
         loaded,

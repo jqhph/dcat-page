@@ -24,6 +24,21 @@ function init() {
 
     });
 
+    // 编辑此页功能
+    let editConfig = DcatPage.config['edit-config'];
+    if (editConfig && typeof editConfig.values === 'object') {
+        let lastName = window.location.pathname.replace('.md', '').replace('.html', '').split('/').pop(),
+            editUrl = editConfig.values[lastName];
+
+        if (editUrl) {
+            let $h1 = $('.docs-wrapper article h1').first(),
+                label = editConfig.label || '<i class="fa fa-github"></i> Edit On Github';
+            $h1.html(`<a>${$h1.text()}</a>`);
+
+            $h1.append(`<a class="edit-btn" target="_blank" href="${editUrl}">${label}</a>`);
+        }
+    }
+
     // 如果是自动生成的锚点，需要重新设置 location.href 属性
     function goAnchor() {
         var url = location.href, path = window.document.location.pathname;

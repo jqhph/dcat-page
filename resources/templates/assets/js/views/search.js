@@ -117,7 +117,7 @@ function init() {
         var old_input = '';
 
         typeahead.on('typeahead:selected', function changePage(e, item) {
-            window.location.href = DMS.getDocUrl(item.link) + (item.name ? `#${item.name}` : '');
+            window.location.href = DcatPage.getDocUrl(item.link) + (item.name ? `#${item.name}` : '');
         });
 
         typeahead.on('keyup', function(e) {

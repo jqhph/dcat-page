@@ -32,6 +32,16 @@
 
 	h1 {
 		font-weight:300;
+		a:not(.edit-btn) {
+			text-decoration: none;
+			color: $color__text;
+		}
+	}
+
+	.edit-btn {
+		font-size: 16px;
+		float: right;
+		margin-top: 12px;
 	}
 
 	h1 + ul {

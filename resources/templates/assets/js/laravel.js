@@ -54,13 +54,13 @@ jQuery(function($) {
     // gitalk
     if (
         $('#comment-container').length
-        && typeof DMS.config.comment != 'undefined'
-        && DMS.config.comment.enable
+        && typeof DcatPage.config.comment != 'undefined'
+        && DcatPage.config.comment.enable
     ) {
         var gitalk = new Gitalk($.extend({
             id: location.pathname, // Ensure uniqueness and length less than 50
             distractionFreeMode: false,  // Facebook-like distraction free mode
-        }, DMS.config.comment || {}));
+        }, DcatPage.config.comment || {}));
 
         gitalk.render('comment-container');
     }
