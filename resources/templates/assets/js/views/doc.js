@@ -35,7 +35,7 @@ function init() {
                 label = editConfig.label || '<i class="fa fa-github"></i> Edit On Github';
             $h1.html(`<a>${$h1.text()}</a>`);
 
-            $h1.append(`<a class="edit-btn" target="_blank" href="${editUrl}">${label}</a>`);
+            $h1.append(`<a class="edit-btn" target="_blank" href="${editUrl.replace('{version}', DcatPage.version)}">${label}</a>`);
         }
     }
 
