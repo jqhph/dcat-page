@@ -16,7 +16,7 @@ $color__teal:           #27b4a8;
 $color__custom:         #59a9f8;
 $color__info:           lighten(#64B5F6, 5%);
 $color__danger:         #e57373;
-$color__code__bg:       #fbfbfd;
+$color__code__bg:       lighten(#f7f7f9, 1%);
 
 $banner_background: linear-gradient(-135deg, #8649D6 0, #2791D2 100%);
 

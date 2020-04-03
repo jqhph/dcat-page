@@ -26,7 +26,7 @@
 	}
 
 	p {
-		font-size: 14px;
+		font-size: 15px;
 		line-height: 1.9;
 	}
 
@@ -174,18 +174,27 @@
 	background: none;
 	position: relative;
 	padding: 0;
+	background: #f8fafc;
+	color: $color__gray;
+	border-radius: 0;
 
 	.video, .laracasts {
-		background: rgba(103, 58, 183, 0.62);
+		//color: #fff;
+		//border-radius: 3px;
+		//border: 0;
+		//background: rgba(103, 58, 183, 0.62);
 	}
 
 	.tip {
-		background: $color__info;
+		//background: $color__info;
 	}
 
 	.note {
-		//background: #f4645f;
-		background:$color__danger;
+		//color: #fff;
+		//border-radius: 3px;
+		//border: 0;
+		////background: #f4645f;
+		//background:$color__danger;
 	}
 
 	p {
