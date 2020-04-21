@@ -74,7 +74,7 @@ namespace DcatPage
      */
     function svg($src)
     {
-        return file_get_contents(path('public/assets/svg/'.trim($src, '/').'.svg'));
+        return asset('assets/svg/'.trim($src, '/').'.svg');
     }
 
     /**
