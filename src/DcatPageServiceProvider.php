@@ -33,7 +33,7 @@ class DcatPageServiceProvider extends ServiceProvider
     {
         // 如果安装了 dcat admin，则注册dcat admin扩展
         if (class_exists(Admin::class)) {
-            if (! DcatPageExtension::enabled()) {
+            if (!DcatPageExtension::enabled()) {
                 return;
             }
 
